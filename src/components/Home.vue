@@ -11,7 +11,16 @@
 </template>
 
 <script setup>
-defineProps({})
+
+import { listarUsuarios} from "@/api/apiFirebase";
+listarUsuarios();
+defineProps({
+  msg: {
+    type: String,
+    required: true
+  }
+})
+
 </script>
 
 <style scoped>
