@@ -1,43 +1,29 @@
 <template>
   <div class="home">
-    <h3>
-      You’ve successfully created a project with
-    </h3>
-    <router-link to="/">Inicio</router-link>
-    <br>
-    <router-link to="/about">Acerca de</router-link>
+    <div class="content">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="125" height="125" />
+      <h3><span class="title">VALHALLA</span></h3>
+      <router-link to="/">Login</router-link>
+      <br>
+      <router-link to="/about">Acerca de</router-link>
+    </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
-})
+defineProps({})
 </script>
+
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  color: #D9E7E7;
 }
 
-h3 {
-  font-size: 1.2rem;
-}
-
-.greetings h1,
-.greetings h3 {
+.content {
   text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
 }
 </style>

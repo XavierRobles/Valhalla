@@ -1,19 +1,13 @@
 <template>
   <div class="greetings">
-    <h1 class="green"> "{{ Capullo }}" </h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-    </h3>
   </div>
+  <router-link to="/home">Volver</router-link>
 </template>
 
 <script>
 export default {
   data: () => ({
     loading: false,
-    Capullo: "About",
     userRegisterDialogVisible: true,
     gameRegisterInvalidForm: false,
     gamesRegisterValidationRules: false,
@@ -25,26 +19,20 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
+.greetings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Asegura que el componente tenga al menos el alto de la ventana */
+  background-image: url('@/assets/valhalla.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-h3 {
-  font-size: 1.2rem;
-}
-
-.greetings h1,
-.greetings h3 {
+.content {
   text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
+  background-color: rgba(255, 255, 255, 0.8); /* Agrega un fondo semi-transparente al contenido */
+  padding: 20px; /* Añade espacio alrededor del contenido para mayor legibilidad */
 }
 </style>
