@@ -1,16 +1,17 @@
+
 <template>
   <div class="greetings">
+    <img src="@/assets/valhalla.png" alt="Fondo de Valhalla" />
+    <router-link to="/home">Back</router-link>
   </div>
-  <router-link to="/home">Volver</router-link>
+
 </template>
 
 <script>
+
 export default {
   data: () => ({
     loading: false,
-    userRegisterDialogVisible: true,
-    gameRegisterInvalidForm: false,
-    gamesRegisterValidationRules: false,
     dialog: true
   }),
   methods: {
@@ -21,18 +22,22 @@ export default {
 <style scoped>
 .greetings {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh; /* Asegura que el componente tenga al menos el alto de la ventana */
-  background-image: url('@/assets/valhalla.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  min-height: 100vh;
+  color: white;
+  text-align: center;
 }
 
-.content {
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.8); /* Agrega un fondo semi-transparente al contenido */
-  padding: 20px; /* Añade espacio alrededor del contenido para mayor legibilidad */
+/* Estilo para el enlace "Volver" */
+.router-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.router-link:hover {
+  text-decoration: underline;
 }
 </style>

@@ -3,14 +3,19 @@
     <header>
       <div class="centered-content">
         <router-view></router-view>
+        <NavBar />
+        <LogOut style="position: absolute; top: 10px; right: 10px;" />
       </div>
     </header>
   </div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 export default {
   name: 'App',
+  components: {NavBar},
 };
 </script>
 
