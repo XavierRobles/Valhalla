@@ -12,7 +12,11 @@ const auth = getAuth();
 const logout = async () => {
   try {
     await signOut(auth);
+    // Redirige a la página de inicio de sesión
     router.push({ name: 'Login' });
+
+    // Recarga la página actual para forzar la actualización
+    window.location.reload();
   } catch (error) {
     console.error(error.message);
   }
@@ -29,6 +33,7 @@ const logout = async () => {
   border-radius: 5px;
   font-size: 12px;
 }
+
 .logout-button {
   position: fixed;
   top: 10px;
