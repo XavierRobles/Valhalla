@@ -1,13 +1,13 @@
 <template>
-  <div class="home">
+  <div class="UserDetail">
     <div class="content">
       <!-- Logo y título -->
       <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325" />
-      <h3><span class="title">VALHALLA</span></h3>
+      <h3><span class="title">{{ auth.currentUser.displayName }}</span></h3>
       <br>
 
       <!-- User table -->
-      <table>
+      <table class="silver-text">
         <thead>
         <tr>
           <th>ID</th>
@@ -17,10 +17,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, index) in users" :key="index" @click="rowClick(user)" :class="{ clickable: auth.currentUser.uid === user.id }">
-          <td>{{ user.id }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.nombre }}</td>
+        <tr>
+          <td>{{ auth.currentUser.uid }}</td>
+          <td>>{{ auth.currentUser.email }}</td>
+          <td>{{ auth.currentUser.displayName }}</td>
           <td>{{ user.main_job }}</td>
         </tr>
         </tbody>
@@ -39,29 +39,21 @@ import { useRouter } from 'vue-router';
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
 const router = useRouter();
-
-const users = ref([]);
+console.log(auth.currentUser.email)
+let user = {};
 
 const loadUsers = async () => {
   const userRef = rtdbRef(db, 'user'); //< collecion!
   try {
     const snapshot = await rtdbGet(userRef);
     if (snapshot.exists()) {
-      const userList = Object.keys(snapshot.val()).map((userId) => ({
-        id: userId,
-        ...snapshot.val()[userId],
-      }));
-      users.value = userList;
+      user = snapshot.child(auth.currentUser.uid).val();
+      console.log(user)
     }
   } catch (error) {
     console.error(error.message);
   }
 };
-
-const rowClick = (trUser)=> {
-  if (auth.currentUser.uid === trUser.id)
-    router.push("/userDetail")
-}
 
 onMounted(() => {
   loadUsers();
@@ -76,12 +68,13 @@ table {
 }
 
 table, th, td {
-  border: 1px solid #ccc;
+  border: none;
   padding: 8px;
 }
 
 th {
-  background-color: #f2f2f2;
+  color: #2a2a2a;
+  background-color: #a4a4a4;
 }
 
 /* Estilos para el texto plateado y más grueso */
@@ -89,7 +82,13 @@ th {
   color: silver;
   font-weight: bold;
 }
-.clickable{
-  cursor: pointer;
+.title{
+  color: silver;
+  font-size: large;
+}
+
+.logo{
+  width: 50px;
+  height: 50px;
 }
 </style>

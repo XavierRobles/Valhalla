@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import Home from '@/components/Home.vue';
 import About from '@/components/About.vue';
 import Login from '@/components/Login.vue';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import UserDetail from "@/components/UserDetail.vue";
 
 const routes = [
     {
@@ -25,6 +26,12 @@ const routes = [
         component: Login,
         name: 'Login',
     },
+    {
+        path: '/userDetail',
+        component: UserDetail,
+        name: 'UserDetail'
+
+    },
 ];
 
 const router = createRouter({
@@ -42,10 +49,10 @@ router.beforeEach(async (to, from, next) => {
 
     if (to.name !== 'Login' && !user) {
 
-        next({ name: 'Login' });
+        next({name: 'Login'});
     } else if (to.name === 'Login' && user) {
 
-        next({ name: 'Home' });
+        next({name: 'Home'});
     } else {
 
         next();
