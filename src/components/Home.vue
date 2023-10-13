@@ -16,6 +16,10 @@
         </tbody>
       </table>
     </div>
+    <div class="chart">
+      <h2>Activity Chart</h2>
+      <canvas id="mainChart"/>
+    </div>
     <div class="content">
       <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325"/>
       <h3><span class="title">VALHALLA</span></h3>
@@ -76,6 +80,9 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {get as rtdbGet, getDatabase, ref as rtdbRef} from 'firebase/database';
 import {firebaseApp} from '@/main';
 import {useRouter} from 'vue-router';
+import 'vue-chartjs';
+import {Chart, ArcElement} from "chart.js";
+Chart.register(ArcElement);
 
 const loading = ref(true);
 const auth = getAuth(firebaseApp);
@@ -170,10 +177,35 @@ const sortedUsers = computed(() => {
   });
   return sorted;
 });
+
+const loadChartData = async () => {
+  const chartElement = document.getElementById("mainChart");
+
+  const data = {
+    labels: ['Active', 'Less Active', 'AFK', 'Gone'],
+    datasets: [{
+      label: 'Primer Dataset',
+      data:[40, 30, 20, 10],
+      backgroundColor: [
+        'rgb(0,255,0)',
+        'rgb(247,255,0)',
+        'rgb(255,0,0)',
+        'rgb(121,121,121)'
+      ],
+      hoverOffset: 4
+    }]
+  }
+
+  new Chart(chartElement,{
+    type: 'pie',
+    data: data,
+  })
+}
 onMounted(async () => {
   await loadUser();
   await loadUsers();
   await loadEventData();
+  await loadChartData();
 });
 </script>
 
@@ -291,6 +323,16 @@ sortable-header.active {
 
 .event-table {
   width: 100%;
+}
+.chart {
+  width: 25%;
+  margin-top: 10%;
+  margin-bottom: -20%;
+  margin-left: 5%;
+}
+.chart h2{
+  text-align: center;
+  margin-bottom: 5%;
 }
 </style>
 <!-- userTotalEvents.value / totalLSEvents.value) * 100 -->
