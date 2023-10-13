@@ -112,6 +112,8 @@ const completeProfile = async () => {
       }
 
       const userRef = rtdbRef(db, 'user/' + user.uid);
+      const now = new Date();
+      const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
       const data = {
         email: user.email,
         name: name.value,
@@ -129,6 +131,8 @@ const completeProfile = async () => {
         total: 0,
         dynamis_dkp: 0,
         rol: 'KARL',
+        event_date: formattedDate,
+
       };
       await rtdbSet(userRef, data);
       name.value = '';
