@@ -3,8 +3,8 @@
     <header>
       <div class="centered-content">
         <router-view></router-view>
-        <NavBar v-if="shouldRenderNavBar" />
-        <LogOut v-if="shouldRenderLogOut" style="position: absolute; top: 10px; right: 10px;" />
+        <NavBar v-if="renderNavBar" />
+        <Setting v-if="renderSettings" style="position: absolute; top: 10px; right: 10px;" />
       </div>
     </header>
   </div>
@@ -12,30 +12,31 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import LogOut from "@/components/LogOut.vue";
+import LogOut from "@/components/Setting.vue";
 import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import Setting from "@/components/Setting.vue";
 
 export default {
   name: 'App',
-  components: {NavBar, LogOut},
+  components: {Setting, NavBar, LogOut},
   setup() {
-    const shouldRenderNavBar = ref(false);
-    const shouldRenderLogOut = ref(false);
+    const renderNavBar = ref(false);
+    const renderSettings = ref(false);
 
     const auth = getAuth();
 
     onMounted(() => {
       onAuthStateChanged(auth, (user) => {
-        // Renderiza NavBar y el logOut si hay un usuario autenticado.
-        shouldRenderNavBar.value = !!user;
-        shouldRenderLogOut.value = !!user;
+        // Renderiza NavBar y setting si hay un usuario autenticado.
+        renderNavBar.value = !!user;
+        renderSettings.value = !!user;
       });
     });
 
     return {
-      shouldRenderNavBar,
-      shouldRenderLogOut
+      renderNavBar: renderNavBar,
+      renderSettings: renderSettings
     };
   },
 };
@@ -46,12 +47,12 @@ export default {
   font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  //text-align: center;
+  color: #deecec;
 }
 /* Resto de tu estilo CSS... */
 .centered-content {
-  text-align: center;
-  width: 100%;
+  //text-align: center;
+  //width: 100%;
 }
 </style>

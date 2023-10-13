@@ -1,31 +1,54 @@
 <template>
   <div>
-    <NavBar />
-    <LogOut style="position: absolute; top: 10px; right: 10px;" />
-    <div class="home">
+    <NavBar/>
+    <div class="login">
       <div class="content">
-        <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325" />
-        <h3><span class="title">VALHALLA</span></h3>
-        <button @click="loginWithGoogle">Iniciar Sesión con Google</button>
-        <br>
-        <div>
-          <div v-if="showFields">
-            <h2>Welcome to Valhalla</h2>
-            <form @submit.prevent="completeProfile">
-              <label for="name">Player Name:</label>
-              <input v-model="name" type="text" id="name" required><br>
-
+        <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="300" height="300"/>
+        <div v-if="!showFields" class="collapsed">
+          <h3><span class="title">VALHALLA</span></h3>
+          <button @click="loginWithGoogle" v-if="!showFields" class="login-button">Sign in with Google</button>
+          <br>
+        </div>
+        <div v-if="showFields">
+          <h2>Welcome to Valhalla</h2>
+          <form @submit.prevent="completeProfile">
+            <div class="form-group">
+              <label for="name">Player name in game:</label>
+              <input v-model="name" type="text" id="name" required class="login-input">
+            </div>
+            <div>
+              <div v-if="showingNotification" class="notification">
+                ¡The name is already in use!
+              </div>
+            </div>
+            <div class="form-group">
               <label for="main_job">Main Job:</label>
-              <input v-model="main_job" type="text" id="main_job" required><br>
+              <select v-model="main_job" class="login-input">
+                <option value="Warrior">Warrior</option>
+                <option value="Monk">Monk</option>
+                <option value="White Mage">White Mage</option>
+                <option value="Black Mage">Black Mage</option>
+                <option value="Red Mage">Red Mage</option>
+                <option value="Thief">Thief</option>
+                <option value="Paladin">Paladin</option>
+                <option value="Dark Knight">Dark Knight</option>
+                <option value="Beastmaster">Beastmaster</option>
+                <option value="Bard">Bard</option>
+                <option value="Ranger">Ranger</option>
+                <option value="Samurai">Samurai</option>
+                <option value="Ninja">Ninja</option>
+                <option value="Dragoon">Dragoon</option>
+                <option value="Summoner">Summoner</option>
+                <option value="Blue Mage" disabled>Blue Mage (Disabled)</option>
+                <option value="Corsair" disabled>Corsair (Disabled)</option>
+                <option value="Puppetmaster" disabled>Puppetmaster (Disabled)</option>
+                <option value="Dancer" disabled>Dancer (Disabled)</option>
+                <option value="Scholar" disabled>Scholar (Disabled)</option>
+              </select>
+            </div>
 
-              <button type="submit">Guardar Información</button>
-            </form>
-          </div>
-
-          <!-- Mensaje de confirmación de inicio de sesión -->
-          <div v-if="loginOk">
-            <h2>Login OK</h2>
-          </div>
+            <button type="submit">Save Information</button>
+          </form>
         </div>
       </div>
     </div>
@@ -33,41 +56,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { getDatabase, ref as rtdbRef, set as rtdbSet, get as rtdbGet } from 'firebase/database';
-import { firebaseApp } from "@/main";
-import { listarUsuarios } from "@/api/apiFirebase";
-import { useRouter } from 'vue-router';
+import {onMounted, ref} from 'vue';
+import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut} from 'firebase/auth';
+import {getDatabase, ref as rtdbRef, set as rtdbSet, get as rtdbGet} from 'firebase/database';
+import {firebaseApp} from "@/main";
+import {useRouter} from 'vue-router';
+
 
 const showFields = ref(false);
 const name = ref('');
 const main_job = ref('');
-const loginOk = ref(false);
 
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
 const router = useRouter();
 
+const showingNotification = ref(false);
+
+const showNotification = () => {
+  showingNotification.value = true;
+  setTimeout(() => {
+    showingNotification.value = false;
+  }, 3000);
+};
 const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Verifica si el usuario existe en la base de datos
-    const userRef = rtdbRef(db, 'user/' + user.uid); // Usamos el UID como el ID
+    const userRef = rtdbRef(db, 'user/' + user.uid);
     const snapshot = await rtdbGet(userRef);
 
     if (!snapshot.exists()) {
-      // El usuario no existe, muestra los campos de nombre y trabajo
       showFields.value = true;
     } else {
-      // El usuario ya existe en la base de datos
-      loginOk.value = true;
-
-      // Redirige al usuario a la página de inicio automáticamente
-      await router.push({ name: 'Home' });
+      await router.push({name: 'Home'});
     }
   } catch (error) {
     console.error(error.message);
@@ -76,49 +100,105 @@ const loginWithGoogle = async () => {
 
 const completeProfile = async () => {
   try {
-    // Obtiene el usuario actualmente autenticado
     const user = auth.currentUser;
 
     if (user) {
-      // Guarda los datos en Firebase Realtime Database con el UID como el ID
+      const usernameExists = await checkIfUsernameExists(name.value);
+
+      if (usernameExists) {
+
+        showNotification()
+        return;
+      }
+
       const userRef = rtdbRef(db, 'user/' + user.uid);
       const data = {
         email: user.email,
-        nombre: name.value,
-        main_job: main_job.value
+        name: name.value,
+        main_job: main_job.value,
+        sub_job: '',
+        sub_job_2: '',
+        dkp: 0,
+        craft: '-',
+        craft_level: 0,
+        event: 0,
+        overall: 0,
+        sky: 0,
+        sea: 0,
+        dynamis: 0,
+        total: 0,
+        dynamis_dkp: 0,
+        rol: 'KARL',
       };
       await rtdbSet(userRef, data);
-
-      // Limpia los campos y establece el estado de login
       name.value = '';
       main_job.value = '';
       showFields.value = false;
-      loginOk.value = true;
 
-      // Redirige al usuario a la página de inicio automáticamente
-      await router.push({ name: 'Home' });
+      await router.push({name: 'Home'});
     }
   } catch (error) {
     console.error(error.message);
   }
 };
+
+const checkIfUsernameExists = async (username) => {
+  const usersRef = rtdbRef(db, 'user');
+  const snapshot = await rtdbGet(usersRef);
+  if (snapshot.exists()) {
+    const users = snapshot.val();
+    return Object.values(users).some(user => user.name.toLowerCase() === username.toLowerCase());
+  }
+  window.alert('The username is already in use. Please choose a different username.');
+  return false;
+};
+onMounted(() => {
+  signOut(auth);
+  router.push({name: 'Login'});
+});
 </script>
 
 <style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  min-height: 100vh;
+.login {
   color: #D9E7E7;
-}
-.title {
-  font-size: 80px;
+  align-items: center;
 }
 
 .content {
   text-align: center;
 }
 
+.title {
+  font-size: 70px;
+}
 
+.form-group {
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido de cada fila */
+  margin-bottom: 5px; /* Espacio entre filas */
+}
+
+.form-group label {
+  flex-basis: 50%; /* Ancho fijo para las etiquetas */
+  margin-right: 10px; /* Espacio entre etiquetas y campos de entrada */
+  text-align: right; /* Alinea las etiquetas a la derecha */
+}
+
+.notification {
+  background-color: #ff0000;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 12px;
+}
+
+.login-input {
+  width: 100px; /* Ancho uniforme para todos los campos de entrada */
+  background-color: #333; /* Fondo negro/gris */
+  color: white; /* Texto blanco */
+  border: none; /* Sin bordes */
+  padding: 4px; /* Espaciado interno */
+  border-radius: 4px; /* Bordes redondeados */
+}
 </style>

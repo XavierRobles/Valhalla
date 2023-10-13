@@ -7,16 +7,11 @@
 
 </template>
 
-<script>
+<script setup>
+import {ref} from "vue";
 
-export default {
-  data: () => ({
-    loading: false,
-    dialog: true
-  }),
-  methods: {
-  }
-}
+const loading = ref(false);
+const dialog = ref(true);
 </script>
 
 <style scoped>
@@ -24,7 +19,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   color: white;
   text-align: center;
 }

@@ -9,7 +9,7 @@ const app = createApp(App);
 
 //DatabaseRealTime
 export const firebaseApp = initializeApp(firebaseConfig);
-
+app.config.globalProperties.$firebaseApp = firebaseApp;
 app.use(router);
 
 app.mount('#app');

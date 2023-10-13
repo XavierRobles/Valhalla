@@ -6,8 +6,8 @@
     </div>
 <br>
     <ul>
-      <li> <!-- Agrega la clase "inicio" aquí -->
-        <router-link to="/">
+      <li>
+        <router-link to="/Home">
           <div class="nav-item-container">
             <div class="nav-item">
               <img v-if="!isExpanded" src="@/components/icons/home.png" height="50" width="52" alt="" />
@@ -17,7 +17,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/Event">
+        <router-link to="/UserProfile">
           <div class="nav-item-container">
             <div class="nav-item">
               <img v-if="!isExpanded" src="@/components/icons/event.png" height="50" width="52" alt="" />
@@ -80,23 +80,20 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      isExpanded: false
-    };
-  },
-  methods: {
-    expandNavbar() {
-      this.isExpanded = true;
-    },
-    collapseNavbar() {
-      this.isExpanded = false;
-    }
-  }
+<script setup>
+import {ref} from "vue";
+
+const isExpanded = ref(false);
+
+const expandNavbar = () => {
+  isExpanded.value = true;
+};
+
+const collapseNavbar = () => {
+  isExpanded.value = false;
 };
 </script>
+
 <style scoped>
 /* Estilo para el contenedor del logo */
 .logo-container {
@@ -181,6 +178,8 @@ export default {
 
 .nav-text {
   display: none; /* Oculta los textos de navegación inicialmente */
+  font-weight: bold;
+  color: #ebf4ff;
 }
 
 .navbar.expanded .nav-text {
