@@ -1,9 +1,12 @@
 <template>
-  <div class="dropdown">
-    <button class="dropdown-button">☰</button>
-    <div class="dropdown-content">
-      <button @click="loadUser">Profile</button>
-      <button @click="logout">Log Out</button>
+  <div class="menu-container">
+    <div class="dropdown">
+      <button class="dropdown-button">☰</button>
+      <div class="dropdown-content">
+        <button @click="loadUser">Profile</button>
+        <button @click="goToVersionHistory">Version History</button>
+        <button @click="logout">Log Out</button>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +33,13 @@ const logout = async () => {
 const goToProfile = async (name) => {
   try {
     await router.push({name: 'UserProfile', params: {name: name}});
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+const goToVersionHistory = async (name) => {
+  try {
+    await router.push({name: 'VersionHistory'});
   } catch (error) {
     console.error(error.message);
   }
@@ -62,13 +72,21 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.menu-container {
+  position: fixed;
+  top: 10px; /* Ajusta la distancia desde la parte superior */
+  right: 10px; /* Ajusta la distancia desde la derecha */
+  width: 10%; /* Ajusta el ancho del menú */
+  z-index: 1000; /* Asegura que esté por encima del contenido */
+}
 .dropdown {
-  position: relative;
-  display: inline-block;
+  position: fixed;
+  right: 10px;
+
 }
 
 .dropdown-button {
-  background-color: silver;
+  background-color: #95a4ab;
   color: black;
   border: none;
   padding: 5px 10px;
@@ -82,7 +100,7 @@ onMounted(() => {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #dcdcdc;
+  background-color: #95a4ab;
   min-width: 100px;
   z-index: 1;
   right: 0;
@@ -105,9 +123,6 @@ onMounted(() => {
 }
 
 .dropdown-content button:hover,
-.dropdown-content a:hover {
-  background-color: #dcdcdc;
-}
 .dropdown-button:hover {
   background-color: hsl(5, 42%, 31%);
   color: #000000; /* Cambia el color del texto al pasar el cursor */
@@ -125,5 +140,8 @@ onMounted(() => {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+.button {
+  font-weight: bold;
 }
 </style>

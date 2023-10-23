@@ -2,7 +2,8 @@
 <template>
   <div class="greetings">
     <img src="@/assets/valhalla.png" alt="Fondo de Valhalla" />
-    <router-link to="/home">Back</router-link>
+    <br>
+    <router-link class="back" to="/home">Back</router-link>
   </div>
 
 </template>
@@ -15,6 +16,25 @@ const dialog = ref(true);
 </script>
 
 <style scoped>
+
+.back {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #95a4ab;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background-color 0.3s, color 0.3s; /* Transiciones suaves para color de fondo y texto */
+  font-weight: bold;
+}
+
+/* Cambia el color de fondo y el texto al pasar el ratón sobre el botón */
+.back:hover {
+  background-color: #687377;
+  color: #e74c3c;
+}
+
 .greetings {
   display: flex;
   flex-direction: column;

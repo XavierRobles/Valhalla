@@ -16,8 +16,8 @@
     </div>
     <div v-show="isOpenUserList" class="setting-values">
       <ul class="user-list">
-        <li v-for="(user, index) in users" :key="user.id">
-          <input type="checkbox" v-model="selectedUsers" :value="user.id" @change="updateSelectedUsersDKP"/>
+        <li v-for="user in sortedUsers" :key="user.id">
+          <input type="checkbox" v-model="selectedUsers" :value="user.id" @change="updateSelectedUsersDKP" />
           {{ user.name }}
         </li>
       </ul>
@@ -195,69 +195,75 @@
     </div>
   </div>
 
-  <div>
+  <div class="content">
     <!-- Tabla de Usuarios -->
     <div>
       <h4>Users</h4>
-      <table>
+      <table class="event_table_user">
         <thead>
         <tr>
           <th @click="sortTable('rol')"
-              :class="{ 'asc': sortColumn === 'rol' && sortDirection === 'asc', 'desc': sortColumn === 'rol' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'rol', 'asc': sortColumn === 'rol' && sortDirection === 'asc', 'desc': sortColumn === 'rol' && sortDirection === 'desc' }">
             Rol
           </th>
           <th @click="sortTable('name')"
-              :class="{ 'asc': sortColumn === 'name' && sortDirection === 'asc', 'desc': sortColumn === 'name' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'name', 'asc': sortColumn === 'name' && sortDirection === 'asc', 'desc': sortColumn === 'name' && sortDirection === 'desc' }">
             Name
           </th>
           <th @click="sortTable('dkp')"
-              :class="{ 'asc': sortColumn === 'dkp' && sortDirection === 'asc', 'desc': sortColumn === 'dkp' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'dkp', 'asc': sortColumn === 'dkp' && sortDirection === 'asc', 'desc': sortColumn === 'dkp' && sortDirection === 'desc' }">
             DKP
           </th>
           <th @click="sortTable('dynamis_dkp')"
-              :class="{ 'asc': sortColumn === 'dynamis_dkp' && sortDirection === 'asc', 'desc': sortColumn === 'dynamis_dkp' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'dynamis_dkp', 'asc': sortColumn === 'dynamis_dkp' && sortDirection === 'asc', 'desc': sortColumn === 'dynamis_dkp' && sortDirection === 'desc' }">
             Dynamis DKP
           </th>
           <th @click="sortTable('main_job')"
-              :class="{ 'asc': sortColumn === 'main_job' && sortDirection === 'asc', 'desc': sortColumn === 'main_job' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'main_job', 'asc': sortColumn === 'main_job' && sortDirection === 'asc', 'desc': sortColumn === 'main_job' && sortDirection === 'desc' }">
             Main Job
           </th>
           <th @click="sortTable('sub_job')"
-              :class="{ 'asc': sortColumn === 'sub_job' && sortDirection === 'asc', 'desc': sortColumn === 'sub_job' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'sub_job', 'asc': sortColumn === 'sub_job' && sortDirection === 'asc', 'desc': sortColumn === 'sub_job' && sortDirection === 'desc' }">
             Sub Job
           </th>
           <th @click="sortTable('sub_job_2')"
-              :class="{ 'asc': sortColumn === 'sub_job_2' && sortDirection === 'asc', 'desc': sortColumn === 'sub_job_2' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'sub_job_2', 'asc': sortColumn === 'sub_job_2' && sortDirection === 'asc', 'desc': sortColumn === 'sub_job_2' && sortDirection === 'desc' }">
             Sub Job 2
           </th>
           <th @click="sortTable('craft')"
-              :class="{ 'asc': sortColumn === 'craft' && sortDirection === 'asc', 'desc': sortColumn === 'craft' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'craft', 'asc': sortColumn === 'craft' && sortDirection === 'asc', 'desc': sortColumn === 'craft' && sortDirection === 'desc' }">
             Craft
           </th>
           <th @click="sortTable('sky')"
-              :class="{ 'asc': sortColumn === 'sky' && sortDirection === 'asc', 'desc': sortColumn === 'sky' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'sky', 'asc': sortColumn === 'sky' && sortDirection === 'asc', 'desc': sortColumn === 'sky' && sortDirection === 'desc' }">
             Sky
           </th>
           <th @click="sortTable('sea')"
-              :class="{ 'asc': sortColumn === 'sea' && sortDirection === 'asc', 'desc': sortColumn === 'sea' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'sea', 'asc': sortColumn === 'sea' && sortDirection === 'asc', 'desc': sortColumn === 'sea' && sortDirection === 'desc' }">
             Sea
           </th>
           <th @click="sortTable('dynamis')"
-              :class="{ 'asc': sortColumn === 'dynamis' && sortDirection === 'asc', 'desc': sortColumn === 'dynamis' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'dynamis', 'asc': sortColumn === 'dynamis' && sortDirection === 'asc', 'desc': sortColumn === 'dynamis' && sortDirection === 'desc' }">
             Dynamis
           </th>
           <th @click="sortTable('event')"
-              :class="{ 'asc': sortColumn === 'event' && sortDirection === 'asc', 'desc': sortColumn === 'event' && sortDirection === 'desc' }">
+              :class="{ 'sortable-header': sortColumn !== 'event', 'asc': sortColumn === 'event' && sortDirection === 'asc', 'desc': sortColumn === 'event' && sortDirection === 'desc' }">
             Event
           </th>
           <th @click="sortTable('overall')"
-              :class="{ 'asc': sortColumn === 'overall' && sortDirection === 'asc', 'desc': sortColumn === 'overall' && sortDirection === 'desc' }">
-            Overall
+              :class="{ 'sortable-header': sortColumn !== 'overall', 'asc': sortColumn === 'overall' && sortDirection === 'asc', 'desc': sortColumn === 'overall' && sortDirection === 'desc' }">
+            Overall %
           </th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(user, index) in sortedUsers" :key="user.id">
+        <tr
+            v-for="(user, index) in sortedUsers"
+            :key="user.id"
+            :class="{ 'highlighted-row': index === highlightedRowIndex }"
+            @mouseover="highlightRow(index)"
+            @mouseout="unhighlightRow()"
+        >
           <td>
             <select v-model="user.rol" @change="saveUserData(user)" class="userList">
               <option value="JARL">JARL</option>
@@ -372,10 +378,10 @@
             <input type="number" v-model="user.dynamis" @input="saveUserData(user)" class="userList"/>
           </td>
           <td>
-            <input type="number" v-model="user.event" @input="saveUserData(user)" class="userList"/>
+            {{ user.event }}
           </td>
           <td>
-            <input type="number" v-model="user.overall" @input="saveUserData(user)" class="userList"/>
+            {{ user.overall }} %
           </td>
         </tr>
         </tbody>
@@ -385,10 +391,11 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet} from 'firebase/database';
 import {firebaseApp} from '@/main';
+import * as events from "events";
 
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
@@ -448,248 +455,82 @@ const settingToggleAccordion = () => {
 const userToggleAccordion = () => {
   isOpenUserList.value = !isOpenUserList.value;
 }
-//Event assistance
-const applyChanges = () => {
-  if (selectEventType.value === 'sky') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (skyPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += skyValue.value;
-        user.sky += 1;
-        user.event += 1;
-
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  } else if (selectEventType.value === 'sea') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-
-        let point
-        if (seaPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += seaValue.value;
-        user.sea += 1;
-        user.event += 1;
-
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  } else if (selectEventType.value === 'dynamis') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-
-        let point
-        if (dynamisPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += dynamisValue.value;
-        user.dynamis += 1;
-        user.event += 1;
-
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  } else if (selectEventType.value === 'hnm') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (hnmEventPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += hnmValue.value;
-        user.event += 1;
-
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  } else if (selectEventType.value === 'huntGroup') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (huntGroupPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += huntGroupValue.value;
-        user.event += 1;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  } else if (selectEventType.value === 'freeEvent') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (freeEventPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += freeEventValue.value;
-        user.event += 1;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  // Cost Item
-  if (selectCostItem.value === 'kirinItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (kirinPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += kirinCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'godsItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (godsPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += godsCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'hnmItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (hnmPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += hnmCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'dynamisNorthlandItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (dynamisNorthlandPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += dynamisNorthlandCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'dynamisAccessoryItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (dynamisAccessoryPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += dynamisAccessoryCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'dreamlandSpecialItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (dreamlandSpecialPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += dreamlandSpecialCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'limbusBossItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (limbusBossPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += limbusBossCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-  if (selectCostItem.value === 'seaJailersItem') {
-    selectedUsersDKP.value.forEach((userId) => {
-      const user = users.value.find((u) => u.id === userId);
-      if (user) {
-        let point
-        if (seaJailersPointType.value === 'dynamis_dkp') {
-          point = 'dynamis_dkp'
-        } else {
-          point = 'dkp'
-        }
-        user[point] += seaJailersCostValue.value;
-        const userRef = rtdbRef(db, `user/${userId}`);
-        rtdbSet(userRef, user);
-      }
-    });
-  }
-};
-
 const updateSelectedUsersDKP = () => {
   selectedUsersDKP.value = selectedUsers.value;
 };
+//Event assistance
+const applyChanges = () => {
+  selectedUsersDKP.value.forEach((userId) => {
+    const user = users.value.find((u) => u.id === userId);
+    if (user) {
+      let point;
+      if (selectEventType.value === 'sky') {
+        point = skyPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += skyValue.value;
+        user.sky += 1;
+        user.event += 1;
+      } else if (selectEventType.value === 'sea') {
+        point = seaPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += seaValue.value;
+        user.sea += 1;
+        user.event += 1;
+      } else if (selectEventType.value === 'dynamis') {
+        point = dynamisPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += dynamisValue.value;
+        user.dynamis += 1;
+        user.event += 1;
+      } else if (selectEventType.value === 'hnm') {
+        point = hnmEventPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += hnmValue.value;
+        user.event += 1;
+      } else if (selectEventType.value === 'huntGroup') {
+        point = huntGroupPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += huntGroupValue.value;
+        user.event += 1;
+      } else if (selectEventType.value === 'freeEvent') {
+        point = freeEventPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += freeEventValue.value;
+        user.event += 1;
+      }
+
+      // user.overall = ((user.event) / total_ls_events.value) * 100;
+      const userRef = rtdbRef(db, `user/${userId}`);
+      rtdbSet(userRef, user);
+    }
+  });
+  // Cost Item
+  selectedUsersDKP.value.forEach((userId) => {
+    if (selectCostItem.value === 'kirinItem') {
+      updateUserPoints(kirinPointType.value, kirinCostValue.value, userId);
+    } else if (selectCostItem.value === 'godsItem') {
+      updateUserPoints(godsPointType.value, godsCostValue.value, userId);
+    } else if (selectCostItem.value === 'hnmItem') {
+      updateUserPoints(hnmPointType.value, hnmCostValue.value, userId);
+    } else if (selectCostItem.value === 'dynamisNorthlandItem') {
+      updateUserPoints(dynamisNorthlandPointType.value, dynamisNorthlandCostValue.value, userId);
+    } else if (selectCostItem.value === 'dynamisAccessoryItem') {
+      updateUserPoints(dynamisAccessoryPointType.value, dynamisAccessoryCostValue.value, userId);
+    } else if (selectCostItem.value === 'dreamlandSpecialItem') {
+      updateUserPoints(dreamlandSpecialPointType.value, dreamlandSpecialCostValue.value, userId);
+    } else if (selectCostItem.value === 'limbusBossItem') {
+      updateUserPoints(limbusBossPointType.value, limbusBossCostValue.value, userId);
+    } else if (selectCostItem.value === 'seaJailersItem') {
+      updateUserPoints(seaJailersPointType.value, seaJailersCostValue.value, userId);
+    }
+  })
+  backupUserData()
+};
+
+function updateUserPoints(pointType, costValue, userId) {
+  const user = users.value.find((u) => u.id === userId);
+  if (user) {
+    let point = pointType === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+    user[point] += costValue;
+    const userRef = rtdbRef(db, `user/${userId}`);
+    rtdbSet(userRef, user);
+  }
+}
+
 const loadUsers = async () => {
   const userRef = rtdbRef(db, 'user');
   try {
@@ -762,31 +603,14 @@ const saveUserData = (userToUpdate) => {
     user.dynamis = userToUpdate.dynamis;
     user.dynamis_dkp = userToUpdate.dynamis_dkp;
     user.craft = userToUpdate.craft;
-
-
     const userRef = rtdbRef(db, `user/${user.id}`);
     rtdbSet(userRef, user);
-
+    backupUserData();
   } catch (error) {
     console.error('Error saving user data:', error);
   }
 };
-// const incrementLsEvent = async () => {
-//   try {
-//     const userRef = rtdbRef(db, 'event_options/');
-//     rtdbGet(userRef)
-//         .then((snapshot) => {
-//           const currentData = snapshot.val();
-//           currentData.total_ls_events = (currentData.total_ls_events || 0) + 1;
-//           update(userRef, currentData);
-//         })
-//         .catch((error) => {
-//           console.error('Error incrementing total_ls_events:', error);
-//         });
-//   } catch (error) {
-//     console.error('Error incrementing total_ls_events:', error);
-//   }
-// };
+
 const loadOptionEvent = async () => {
   const optionEventRef = rtdbRef(db, 'event_options/');
   try {
@@ -835,14 +659,17 @@ const loadOptionEvent = async () => {
   }
 
 };
-onMounted(() => {
-  loadOptionEvent()
-  loadUsers();
-});
+const highlightRow = (index) => {
+  highlightedRowIndex.value = index;
+};
 
-const sortColumn = ref('name');
-const sortDirection = ref('');
+const unhighlightRow = () => {
+  highlightedRowIndex.value = -1; // Cuando el cursor se mueve fuera de la fila, se restablece a -1
+};
+const highlightedRowIndex = ref(-1); // Valor inicial, -1 significa ninguna fila resaltada
 
+let sortColumn = ref('name');
+let sortDirection = ref('asc');
 const sortTable = (column) => {
   if (column === sortColumn.value) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
@@ -857,44 +684,100 @@ const sortedUsers = computed(() => {
   sorted.sort((a, b) => {
     const aValue = a[sortColumn.value];
     const bValue = b[sortColumn.value];
+
     if (sortDirection.value === 'asc') {
-      return aValue.localeCompare(bValue);
+      if (!isNaN(aValue) && !isNaN(bValue)) {
+        // Si ambos valores son numéricos, compáralos como números
+        return parseFloat(aValue) - parseFloat(bValue);
+      } else {
+        // Si uno de los valores no es numérico, compáralos como cadenas
+        return aValue.localeCompare(bValue);
+      }
     } else {
-      return bValue.localeCompare(aValue);
+      if (!isNaN(aValue) && !isNaN(bValue)) {
+        // Si ambos valores son numéricos, compáralos como números
+        return parseFloat(bValue) - parseFloat(aValue);
+      } else {
+        // Si uno de los valores no es numérico, compáralos como cadenas
+        return bValue.localeCompare(aValue);
+      }
     }
   });
   return sorted;
 });
-const loadUser = async () => {
-  const auth = getAuth();
-  const db = getDatabase(firebaseApp);
-  const user = await new Promise((resolve) => {
-    onAuthStateChanged(auth, (user) => {
-      resolve(user);
-    });
-  });
-  const userRef = rtdbRef(db, 'user/');
-  const snapshot = await rtdbGet(userRef);
+
+const backupUserData = async () => {
   try {
-    if (snapshot.exists()) {
-      const userData = snapshot.val();
-      localStorage.setItem('userId', user.uid);
-      await goToProfile(userData[user.uid].name);
-    } else {
-      console.error('User not found');
-    }
+    // const user = await loadUser();
+    console.log("get user empieza")
+    const userData = await getUserData(); // Recolecta los datos de "user"
+    console.log("get user ok")
+    await saveUserDataToBackup(userData);
+    console.log('Backup successful');
+    console.log("save ok")
   } catch (error) {
-    console.error('Error loading user:', error);
+    console.error('Error during backup:', error);
   }
 };
+
+const getUserData = async () => {
+  const userRef = rtdbRef(db, 'user/');
+  console.log('Ubicación de la base de datos:', userRef.toString());
+  const snapshot = await rtdbGet(userRef);
+  console.log('Solicitud GET realizada:', snapshot);
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    throw new Error('User data not found');
+  }
+};
+
+const saveUserDataToBackup = async (userData) => {
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+  const backupRef = rtdbRef(db, `backup/${formattedDate}`);
+  await rtdbSet(backupRef, userData);
+};
+
+const updateOverall = () => {
+  users.value.forEach((user) => {
+    const overall = (user.event / total_ls_events.value) * 100;
+    user.overall = parseFloat(overall.toFixed(2));
+    const userRef = rtdbRef(db, `user/${user.id}`);
+    rtdbSet(userRef, user);
+  });
+};
+const updateEvents = () => {
+  users.value.forEach((user) => {
+    const events = user.sky + user.sea + user.dynamis;
+    user.event = parseFloat(events);
+    const userRef = rtdbRef(db, `user/${user.id}`);
+    rtdbSet(userRef, user);
+  });
+};
+
+
+watch(total_ls_events, () => {
+  updateOverall();
+});
+
+
+watch(users, () => {
+  updateOverall();
+  updateEvents();
+}, {deep: true});
+onMounted(() => {
+  loadOptionEvent()
+  loadUsers();
+});
 </script>
 
 <style scoped>
 
 .top-section {
-//display: flex; text-align: center; width: 100%;
+  text-align: center;
+  width: 100%;
 }
-
 
 .left-half {
   width: 50%;
@@ -902,13 +785,6 @@ const loadUser = async () => {
   box-sizing: border-box;
   text-align: right;
   vertical-align: top;
-}
-
-.user-list {
-  display: flex; /* Cambia la dirección de visualización a horizontal */
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una sola línea */
-  list-style: none;
-  padding: 0;
 }
 
 .user-list li {
@@ -924,75 +800,42 @@ const loadUser = async () => {
 
 }
 
-
-/* Estilos para los campos de entrada en la tabla de abajo */
-.user-table input[type="text"],
-.user-table input[type="number"] {
-  width: 100px; /* Ancho uniforme para todos los campos de entrada */
-  background-color: #333; /* Fondo negro/gris */
-  color: white; /* Texto blanco */
-  border: none; /* Sin bordes */
-  padding: 4px; /* Espaciado interno */
-  border-radius: 4px; /* Bordes redondeados */
-  text-align: right; /* Alineación central del texto */
-
-}
-
-/* Estilos para la tabla en general */
-.user-table table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 10px;
-  margin: 0 auto; /* Centra la tabla horizontalmente */
-}
-
-/* Estilos para las filas impares de la tabla */
-.user-table tbody tr:nth-child(odd) {
-  background-color: #eee;
-}
-
-/* Estilos para las filas pares de la tabla */
-.user-table tbody tr:nth-child(even) {
-  background-color: #ddd;
-}
-
 /* Estilos para los campos de entrada en la tabla de abajo con clase "userList" */
 .userList {
   width: 100px; /* Ancho uniforme para todos los campos de entrada */
   background-color: #333; /* Fondo negro/gris */
-  color: white; /* Texto blanco */
+  color: #deecec; /* Texto blanco */
   border: none; /* Sin bordes */
   padding: 4px; /* Espaciado interno */
   border-radius: 4px; /* Bordes redondeados */
   text-align: center; /* Alineación central del texto */
 }
 
-.user-name {
-  color: #deecec; /* Cambiar el color del nombre del usuario */
-  text-align: left;
-}
-
-.setting-values {
-  text-align: right;
+.user-list {
+  display: flex; /* Cambia la dirección de visualización a horizontal */
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una sola línea */
+  list-style: none;
+  padding: 0;
 }
 
 .setting-input {
   text-align: center;
   width: 50px; /* Ancho uniforme para todos los campos de entrada */
   background-color: #333; /* Fondo negro/gris */
-  color: white; /* Texto blanco */
+  color: #deecec; /* Texto blanco */
 //border: none; /* Sin bordes */ border-radius: 4px; /* Bordes redondeados */
 }
+
 .setting-input-total_ls {
   text-align: center;
   width: 100px; /* Ancho uniforme para todos los campos de entrada */
   background-color: #333; /* Fondo negro/gris */
-  color: white; /* Texto blanco */
+  color: #deecec; /* Texto blanco */
 //border: none; /* Sin bordes */ border-radius: 4px; /* Bordes redondeados */
 }
 
 .select-input {
-  color: white;
+  color: #deecec;
   background-color: #333; /* Fondo negro/gris */
   width: 200px;
 
@@ -1000,7 +843,7 @@ const loadUser = async () => {
 
 .select-input option:hover {
   background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
-  color: #fff; /* Cambia el color del texto cuando se pasa el mouse */
+  color: #687377; /* Cambia el color del texto cuando se pasa el mouse */
 }
 
 .value-item {
@@ -1013,7 +856,7 @@ const loadUser = async () => {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  color: white;
+  color: #687377;
   border-bottom: 1px solid #333;
 }
 
@@ -1022,6 +865,7 @@ const loadUser = async () => {
 }
 
 .setting-values {
+  text-align: right;
   padding: 20px;
   display: block;
   border-bottom-left-radius: 5px;
@@ -1029,9 +873,7 @@ const loadUser = async () => {
 }
 
 .button {
-//display: inline-block; padding: 0px 5px; /* Ajusta el espaciado interno según sea necesario */
-  background-color: #deecec; /* Color de fondo del botón */
-  color: #000000; /* Color del texto */
+//display: inline-block; padding: 0px 5px; /* Ajusta el espaciado interno según sea necesario */ background-color: #deecec; /* Color de fondo del botón */ color: #000000; /* Color del texto */
   border: none; /* Sin borde */
   border-radius: 4px; /* Bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar por encima */
@@ -1039,6 +881,7 @@ const loadUser = async () => {
   text-decoration: none; /* Quita la subraya predeterminada para que parezca un botón */
   font-weight: bold;
   font-size: 12px;
+  background-color: #95a4ab;
 }
 
 /* Estilo cuando se pasa el mouse por encima */
@@ -1048,13 +891,62 @@ const loadUser = async () => {
 
 input:checked {
   background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se selecciona */
-  color: #fff; /* Cambia el color del texto cuando se selecciona */
+  color: #95a4ab; /* Cambia el color del texto cuando se selecciona */
+}
+
+
+/* Cambia el color de fondo y el texto al pasar el ratón sobre el botón */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+//height: 100vh; /* Ajusta la altura como desees */ //width: 200vh;
+}
+
+
+/* Estilos para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+
+.sortable-header {
+  position: relative; /* Para el efecto de relieve */
+}
+
+.sortable-header::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  border-top: 5px solid #ca473d;
+  opacity: 0; /* Inicialmente invisible */
+  transition: opacity 0.2s ease-in-out;
+}
+
+.sortable-header.active {
+  background-color: #687377; /* Cambia el color de fondo cuando está activo */
+}
+
+.sortable-header:hover::after {
+  opacity: 1; /* Hacer visible al pasar el cursor sobre la cabecera */
+//background-color: #0065e9
+}
+
+.sortable-header:hover {
+  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo al pasar el cursor sobre la cabecera */
 }
 
 .system-manager {
   display: inline-block;
   padding: 5px 10px;
-  background-color: #deecec;
+  background-color: #95a4ab;
   color: #000000;
   text-decoration: none;
   border-radius: 5px;
@@ -1065,8 +957,48 @@ input:checked {
 
 /* Cambia el color de fondo y el texto al pasar el ratón sobre el botón */
 .system-manager:hover {
-  background-color: #deecec;
+  background-color: #687377;
   color: #e74c3c;
+}
+
+.event-table th {
+  background-color: #687377;
+  color: #000000;
+  font-weight: bold;
+}
+
+.event_table_user th {
+  background-color: #687377;
+  color: #000000;
+  font-weight: bold;
+  font-size: 15px;
+
+}
+
+table, th, td {
+  border: 1px solid #687377;
+  padding: 8px;
+  text-align: center;
+}
+
+td {
+  border: 1px solid #687377;
+  padding: 8px;
+}
+
+/* Estilos para icono de dirección de ordenamiento */
+.asc:after {
+  content: ' ↑';
+  padding-left: 5px;
+}
+
+.desc:after {
+  content: ' ↓';
+  padding-left: 5px;
+}
+
+.highlighted-row:hover {
+  background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
 }
 </style>
 

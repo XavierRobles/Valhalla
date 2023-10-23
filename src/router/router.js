@@ -1,14 +1,22 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import Home from '@/components/Home.vue';
-import About from '@/components/About.vue';
 import Login from '@/components/Login.vue';
 import UserProfile from "@/components/UserProfile.vue";
 import AccessDenied from '@/components/Login.vue';
 import SystemManager from "@/components/SystemManager.vue";
+import VersionHistory from "@/components/VersionHistory.vue";
+import Event from "@/components/Event.vue";
+import Sky from "@/components/Sky.vue";
+import Sea from "@/components/Sea.vue";
+import Dynamis from "@/components/Dynamis.vue";
+import Rules from "@/components/Rules.vue";
+import About from '@/components/About.vue';
+
 
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getDatabase, ref as rtdbRef, get as rtdbGet} from 'firebase/database';
 import {firebaseApp} from "@/main";
+
 
 
 
@@ -38,10 +46,34 @@ const routes = [
         meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
     },
     {
+        path: '/event',
+        component: Event,
+        name: 'Event',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },
+    {
+        path: '/sky',
+        component: Sky,
+        name: 'Sky',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },
+    {
+        path: '/sea',
+        component: Sea,
+        name: 'Sea',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },
+    {
+        path: '/dynamis',
+        component: Dynamis,
+        name: 'Dynamis',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },
+    {
         path: '/SystemManager',
         component: SystemManager,
         name: 'SystemManager',
-        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+        meta: {requiresAuth: true, roles: ['JARL']},
     },
     {
         path: '/UserProfile/:name',
@@ -49,6 +81,19 @@ const routes = [
         name: 'UserProfile',
         meta: { requiresAuth: true, roles: ['JARL', 'EARL', 'KARL'] },
         props: true,
+    },
+    {
+        path: '/VersionHistory',
+        component: VersionHistory,
+        name: 'VersionHistory',
+        meta: { requiresAuth: true, roles: ['JARL', 'EARL', 'KARL'] },
+        props: true,
+    },
+    {
+        path: '/rules',
+        component: Rules,
+        name: 'Rules',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
     },
     {
         path: '/about',

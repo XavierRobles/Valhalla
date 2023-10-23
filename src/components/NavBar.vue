@@ -2,8 +2,11 @@
   <div class="navbar" :class="{ 'expanded': isExpanded }" @mouseover="expandNavbar" @mouseleave="collapseNavbar">
     <br>
     <div class="logo-container" :style="{ marginLeft: isExpanded ? '0' : '-8px' }">
-      <img alt="Vue logo" class="logo" src="@/assets/logo.png" :style="{ transform: isExpanded ? 'scale(1.7)' : 'scale(1)' }" />
+      <router-link to="/home" class="logo-link">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.png" :style="{ transform: isExpanded ? 'scale(1.7)' : 'scale(1)' }" />
+      </router-link>
     </div>
+
 <br>
     <ul>
       <li>
@@ -17,7 +20,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/UserProfile">
+        <router-link to="/Event">
           <div class="nav-item-container">
             <div class="nav-item">
               <img v-if="!isExpanded" src="@/components/icons/event.png" height="50" width="52" alt="" />
@@ -103,8 +106,8 @@ const collapseNavbar = () => {
 
 /* Estilo para el logo */
 .logo {
-  width: 80px; /* Ancho inicial del logo */
-  height: 80px; /* Altura inicial del logo */
+  width: 75px; /* Ancho inicial del logo */
+  height: 75px; /* Altura inicial del logo */
   transition: transform 0.3s; /* Agrega una transición suave para la transformación */
 }
 
@@ -119,7 +122,7 @@ const collapseNavbar = () => {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 68px; /* Ancho de la barra de navegación */
+  width: 78px; /* Ancho de la barra de navegación */
   z-index: 999; /* Asegura que esté en la parte superior */
   overflow: hidden; /* Oculta cualquier contenido que se desborde */
   transition: width 0.3s; /* Agrega una transición suave para el ancho */

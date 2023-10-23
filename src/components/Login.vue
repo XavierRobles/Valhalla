@@ -6,7 +6,12 @@
         <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="300" height="300"/>
         <div v-if="!showFields" class="collapsed">
           <h3><span class="title">VALHALLA</span></h3>
-          <button @click="loginWithGoogle" v-if="!showFields" class="login-button">Sign in with Google</button>
+          <br>
+          <br>
+          <button @click="loginWithGoogle" v-if="!showFields" class="google-login-button">
+            <img class="google-logo" src="@/components/icons/logoGoogleLogin.svg" alt="Google Logo"/>
+            Sign in with Google
+          </button>
           <br>
         </div>
         <div v-if="showFields">
@@ -52,6 +57,15 @@
         </div>
       </div>
     </div>
+    <a href="https://www.square-enix-games.com/es_ES/home">
+      <img class="logo-square" src="@/components/icons/Square_Enix_logo.png" alt="Valhalla ls"/>
+    </a>
+    <a href="http://www.playonline.com/">
+    <img class="logo-ffxi" src="@/components/icons/ffxi.png" alt="Valhalla ls"/>
+    </a>
+    <a href="https://horizonxi.com/">
+    <img class="logo-horizon" src="@/components/icons/horizonxi.png" alt="Valhalla ls"/>
+    </a>
   </div>
 </template>
 
@@ -153,7 +167,7 @@ const checkIfUsernameExists = async (username) => {
     const users = snapshot.val();
     return Object.values(users).some(user => user.name.toLowerCase() === username.toLowerCase());
   }
-  window.alert('The username is already in use. Please choose a different username.');
+  showNotification()
   return false;
 };
 onMounted(() => {
@@ -204,5 +218,50 @@ onMounted(() => {
   border: none; /* Sin bordes */
   padding: 4px; /* Espaciado interno */
   border-radius: 4px; /* Bordes redondeados */
+}
+.google-login-button {
+  //display: flex;
+  align-items: center;
+  background-color: #181818;
+  color: #fefefe;
+  border: 1px solid #181818;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.google-login-button:hover {
+  background-color: hsl(5, 42%, 31%);
+  color: #fff;
+  //border: 1px solid #4285f4;
+}
+
+/* Estilos para el logotipo de Google */
+.google-logo {
+  margin-right: 30px;
+}
+
+.logo-square {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  max-width: 200px; /* Ancho máximo de la imagen */
+  max-height: 200px; /* Altura máxima de la imagen */
+}
+.logo-ffxi {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 300px;
+  max-height: 300px;
+}
+.logo-horizon {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  max-width:200px;
+  max-height: 200px;
 }
 </style>

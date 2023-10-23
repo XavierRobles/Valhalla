@@ -10,8 +10,9 @@
           <span class="field-label">{{ user.email }}</span>
         </div>
         <button class="edit-button" @click="toggleEditing">{{ isEditing ? 'Save' : 'Edit Profile' }}</button>
+        <br>
+        <img :src="randomIcon" alt="pic" class="icon" style="width: 250px; height: 250px;">
       </div>
-
       <div class="group">
         <div class="parameters">
           <div>
@@ -133,7 +134,7 @@
               <span class="editable-value">{{ user.event }}</span>
             </div>
             <label for="overall" class="field-label">Overall:</label>
-            <span class="editable-value">{{ user.overall }}</span>
+            <span class="editable-value">{{ user.overall }} %</span>
           </div>
         </div>
         <div class="dkp">
@@ -148,14 +149,12 @@
             <label for="dynamis_dkp" class="field-label-dkp">DKP Dynamis:</label>
             <span class="field-label-dkp field-dkp">{{ user.dynamis_dkp }}</span>
           </div>
-
         </div>
       </div>
     </div>
     <div v-else>
       <p class="user-not-found">User not found.</p>
     </div>
-
     <div class="back-button">
       <router-link class="back-button edit-button" to="/home">Back</router-link>
     </div>
@@ -165,6 +164,18 @@
 import {ref, onMounted, watch} from 'vue';
 import {getDatabase, ref as dbRef, get, ref as rtdbRef, set as rtdbSet} from 'firebase/database';
 import {firebaseApp} from '@/router/firebaseConfig';
+import icon1 from '@/components/icons/img/ffxi-pri.png';
+import icon2 from '@/components/icons/img/tarugirl.png';
+import icon3 from '@/components/icons/img/wormAby.png';
+import icon4 from '@/components/icons/img/fafnir.png';
+import icon5 from '@/components/icons/img/vtra.png';
+import icon6 from '@/components/icons/img/cat.png';
+import icon7 from '@/components/icons/img/odin.png';
+import icon8 from '@/components/icons/img/puk.png';
+import icon9 from '@/components/icons/img/bahamut.png';
+const icons = [icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9];
+const randomIndex = Math.floor(Math.random() * icons.length);
+const randomIcon = icons[randomIndex];
 
 const userId = ref(localStorage.getItem('userId'));
 const user = ref({
@@ -270,7 +281,7 @@ watch(userId, searchUser);
 
 .field-label {
   font-weight: bold; /* Texto en negrita */
-  color: #ebf4ff; /* Color de texto plateado */
+  color: #687377; /* Color de texto plateado */
   font-size: 18px; /* Tamaño de fuente ligeramente más grande */
   margin-right: 10px; /* Agrega espacio en la parte inferior de los labels */
 }
@@ -300,27 +311,22 @@ watch(userId, searchUser);
 
 .field-label {
   font-weight: bold; /* Texto en negrita */
-  color: #ebf4ff; /* Color de texto plateado */
+  color: #95a4ab; /* Color de texto plateado */
   font-size: 18px; /* Tamaño de fuente ligeramente más grande */
   margin-right: 10px; /* Agrega espacio en la parte inferior de los labels */
 }
 
-/* Estilo adicional para campos editables */
-.editable-field {
-  font-size: 16px; /* Tamaño de fuente más grande */
-  font-weight: bold; /* Texto en negrita */
-  color: #001bf2; /* Color de texto plateado */
-}
 
 /* Estilo adicional para valores no editables */
 .editable-value {
   color: #ebf4ff; /* Color de texto plateado */
+  font-weight: bold;
 }
 
 .edit-button {
   display: inline-block;
   padding: 5px 10px;
-  background-color: #deecec;
+  background-color: #95a4ab;
   color: #000000;
   text-decoration: none;
   border-radius: 5px;
