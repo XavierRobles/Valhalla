@@ -422,7 +422,7 @@ const huntGroupPointType = ref("");
 const freeEventPointType = ref("");
 
 
-const total_ls_events = ref(0);
+const total_ls_events = ref(1);
 const skyValue = ref(0);
 const seaValue = ref(0);
 const dynamisValue = ref(0);
@@ -492,7 +492,6 @@ const applyChanges = () => {
         user.event += 1;
       }
 
-      // user.overall = ((user.event) / total_ls_events.value) * 100;
       const userRef = rtdbRef(db, `user/${userId}`);
       rtdbSet(userRef, user);
     }
@@ -736,6 +735,14 @@ const saveUserDataToBackup = async (userData) => {
   await rtdbSet(backupRef, userData);
 };
 
+const handleFieldChanges = (user) => {
+  watch(() => [user.sky, user.sea, user.dynamis], () => {
+    const currentDate = new Date();
+    user.event_date = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+
+  });
+};
+
 const updateOverall = () => {
   users.value.forEach((user) => {
     const overall = (user.event / total_ls_events.value) * 100;
@@ -750,21 +757,14 @@ const updateEvents = () => {
     user.event = parseFloat(events);
     const userRef = rtdbRef(db, `user/${user.id}`);
     rtdbSet(userRef, user);
-      handleFieldChanges(user);
   });
 };
 
-const handleFieldChanges = (user) => {
-  watch(() => [user.sky, user.sea, user.dynamis], () => {
-    const currentDate = new Date();
-    user.event_date = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
-
-  });
-};
 
 watch(total_ls_events, () => {
   updateOverall();
 });
+
 
 watch(users, () => {
   updateOverall();

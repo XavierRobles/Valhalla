@@ -145,6 +145,7 @@ const completeProfile = async () => {
         total: 0,
         dynamis_dkp: 0,
         rol: 'KARL',
+        event_date: formattedDate,
       };
       await rtdbSet(userRef, data);
       name.value = '';
