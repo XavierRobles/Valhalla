@@ -392,10 +392,9 @@
 
 <script setup>
 import {computed, onMounted, ref, watch} from 'vue';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {getAuth} from 'firebase/auth';
 import {get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet} from 'firebase/database';
 import {firebaseApp} from '@/main';
-import * as events from "events";
 
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
@@ -709,9 +708,7 @@ const sortedUsers = computed(() => {
 const backupUserData = async () => {
   try {
     // const user = await loadUser();
-    console.log("get user empieza")
     const userData = await getUserData(); // Recolecta los datos de "user"
-    console.log("get user ok")
     await saveUserDataToBackup(userData);
     console.log('Backup successful');
     console.log("save ok")
@@ -753,14 +750,21 @@ const updateEvents = () => {
     user.event = parseFloat(events);
     const userRef = rtdbRef(db, `user/${user.id}`);
     rtdbSet(userRef, user);
+      handleFieldChanges(user);
   });
 };
 
+const handleFieldChanges = (user) => {
+  watch(() => [user.sky, user.sea, user.dynamis], () => {
+    const currentDate = new Date();
+    user.event_date = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+
+  });
+};
 
 watch(total_ls_events, () => {
   updateOverall();
 });
-
 
 watch(users, () => {
   updateOverall();
