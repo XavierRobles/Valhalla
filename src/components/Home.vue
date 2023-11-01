@@ -93,6 +93,27 @@ const loadUsers = async () => {
     console.error(error.message);
   }
 };
+
+// const assignRoleToUser = async (userId, role) => {
+//   debugger
+//   const userRef = rtdbRef(db, 'user/' + userId);
+//
+//   try {
+//     // Asignar el rol al usuario en la base de datos en tiempo real.
+//     await rtdbSet(userRef, { role });
+//     console.log(`Rol '${role}' asignado al usuario con ID '${userId}'.`);
+//   } catch (error) {
+//     console.error('Error al asignar el rol al usuario:', error.message);
+//   }
+// };
+//
+// // Uso de la función para asignar un rol a un usuario.
+// const userId = userData[user.uid]; // Debes reemplazar con el ID del usuario.
+// const newRole = 'JARL'; // El rol que deseas asignar al usuario.
+// assignRoleToUser(userId, newRole);
+
+
+
 const loadUser = async () => {
   const user = await new Promise((resolve) => {
     onAuthStateChanged(auth, (user) => {

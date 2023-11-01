@@ -146,6 +146,7 @@ const completeProfile = async () => {
         dynamis_dkp: 0,
         rol: 'KARL',
         event_date: formattedDate,
+        inventory: {}
       };
       await rtdbSet(userRef, data);
       name.value = '';

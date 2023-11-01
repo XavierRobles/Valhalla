@@ -194,6 +194,7 @@ const user = ref({
   dynamis_dkp: '',
   event: '',
   overall: '',
+  event_date: '',
 
 
   // Agregar más campos editables aquí
@@ -225,6 +226,7 @@ const saveUserData = (userToUpdate) => {
     user.value.dynamis = userToUpdate.dynamis;
     user.value.dynamis_dkp = userToUpdate.dynamis_dkp;
     user.value.craft = userToUpdate.craft;
+    // user.value.event_date = userToUpdate.event_date;
 
     // Obtiene una referencia al nodo del usuario en Firebase Realtime Database
     const db = getDatabase(firebaseApp);
