@@ -47,49 +47,97 @@
   <div class="gods">
     <div class="container-stone-gems">
       <div class="user-image">
-        <img src="@/components/icons/stones/Winterstone.webp" alt="img-Winterstone" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('Winterstone') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Winterstone')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Winterstone')" class="button">+</button>
-        <img src="@/components/icons/stones/Gem_of_the_North.webp" alt="img-Gem-of-the-North" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('GemOfTheNorth') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheNorth')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheNorth')" class="button">+</button>
+        <img src="@/components/sky/Winterstone.webp" alt="img-Winterstone" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('Winterstone')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Winterstone')" class="button">
+          -
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Winterstone')" class="button">
+          +
+        </button>
+        <img src="@/components/sky/Gem_of_the_North.webp" alt="img-Gem-of-the-North" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('GemOfTheNorth')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheNorth')"
+                class="button">-
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheNorth')"
+                class="button">+
+        </button>
       </div>
       <!-- Springstone y GemOfTheEast -->
       <div class="user-image">
-        <img src="@/components/icons/stones/Springstone.webp" alt="img-Springstone" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('Springstone') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Springstone')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Springstone')" class="button">+</button>
-        <img src="@/components/icons/stones/GemOfTheEast.webp" alt="img-GemOfTheEast" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('GemOfTheEast') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheEast')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheEast')" class="button">+</button>
+        <img src="@/components/sky/Springstone.webp" alt="img-Springstone" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('Springstone')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Springstone')" class="button">
+          -
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Springstone')" class="button">
+          +
+        </button>
+        <img src="@/components/sky/GemOfTheEast.webp" alt="img-GemOfTheEast" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('GemOfTheEast')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheEast')"
+                class="button">-
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheEast')"
+                class="button">+
+        </button>
       </div>
 
       <!-- Summerstone y GemOfTheSouth -->
       <div class="user-image">
-        <img src="@/components/icons/stones/Summerstone.webp" alt="img-Summerstone" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('Summerstone') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Summerstone')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Summerstone')" class="button">+</button>
-        <img src="@/components/icons/stones/GemOfTheSouth.webp" alt="img-GemOfTheSouth" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('GemOfTheSouth') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheSouth')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheSouth')" class="button">+</button>
+        <img src="@/components/sky/Summerstone.webp" alt="img-Summerstone" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('Summerstone')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Summerstone')" class="button">
+          -
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Summerstone')" class="button">
+          +
+        </button>
+        <img src="@/components/sky/GemOfTheSouth.webp" alt="img-GemOfTheSouth" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('GemOfTheSouth')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheSouth')"
+                class="button">-
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheSouth')"
+                class="button">+
+        </button>
       </div>
 
       <!-- Autumnstone y GemOfTheWest -->
       <div class="user-image">
-        <img src="@/components/icons/stones/Autumnstone.webp" alt="img-Autumnstone" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('Autumnstone') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Autumnstone')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Autumnstone')" class="button">+</button>
-        <img src="@/components/icons/stones/GemOfTheWest.webp" alt="img-GemOfTheWest" class="img-stone"/>
-        <label class="label-total">{{ calculateTotalForSkyItem('GemOfTheWest') }}</label>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheWest')" class="button">-</button>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheWest')" class="button">+</button>
+        <img src="@/components/sky/Autumnstone.webp" alt="img-Autumnstone" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('Autumnstone')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('Autumnstone')" class="button">
+          -
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Autumnstone')" class="button">
+          +
+        </button>
+        <img src="@/components/sky/GemOfTheWest.webp" alt="img-GemOfTheWest" class="img-sea"/>
+        <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+            calculateTotalForSkyItem('GemOfTheWest')
+          }}&nbsp;&nbsp;&nbsp;</label>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('GemOfTheWest')"
+                class="button">-
+        </button>
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('GemOfTheWest')"
+                class="button">+
+        </button>
       </div>
     </div>
     <!--  ######################################################Seal#################################################-->
@@ -97,34 +145,58 @@
       <div class="vertical-container">
         <!-- SealOfGenbu -->
         <div class="user-image">
-          <img src="@/components/icons/stones/SealOfGenbu.webp" alt="img-SealOfGenbu" class="img-stone"/>
-          <label class="label-total">{{ calculateTotalForSkyItem('SealOfGenbu') }}</label>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfGenbu')" class="button">-</button>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfGenbu')" class="button">+</button>
+          <img src="@/components/sky/SealOfGenbu.webp" alt="img-SealOfGenbu" class="img-sea"/>
+          <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+              calculateTotalForSkyItem('SealOfGenbu')
+            }}&nbsp;&nbsp;&nbsp;</label>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfGenbu')"
+                  class="button">-
+          </button>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfGenbu')"
+                  class="button">+
+          </button>
         </div>
 
         <!-- SealOfSeiryu -->
         <div class="user-image">
-          <img src="@/components/icons/stones/SealOfSeiryu.png" alt="img-SealOfSeiryu" class="img-stone"/>
-          <label class="label-total">{{ calculateTotalForSkyItem('SealOfSeiryu') }}</label>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfSeiryu')" class="button">-</button>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfSeiryu')" class="button">+</button>
+          <img src="@/components/sky/SealOfSeiryu.png" alt="img-SealOfSeiryu" class="img-sea"/>
+          <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+              calculateTotalForSkyItem('SealOfSeiryu')
+            }}&nbsp;&nbsp;&nbsp;</label>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfSeiryu')"
+                  class="button">-
+          </button>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfSeiryu')"
+                  class="button">+
+          </button>
         </div>
 
         <!-- SealOfSuzaku -->
         <div class="user-image">
-          <img src="@/components/icons/stones/SealOfSuzaku.webp" alt="img-SealOfSuzaku" class="img-stone"/>
-          <label class="label-total">{{ calculateTotalForSkyItem('SealOfSuzaku') }}</label>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfSuzaku')" class="button">-</button>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfSuzaku')" class="button">+</button>
+          <img src="@/components/sky/SealOfSuzaku.webp" alt="img-SealOfSuzaku" class="img-sea"/>
+          <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+              calculateTotalForSkyItem('SealOfSuzaku')
+            }}&nbsp;&nbsp;&nbsp;</label>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfSuzaku')"
+                  class="button">-
+          </button>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfSuzaku')"
+                  class="button">+
+          </button>
         </div>
 
         <!-- SealOfByakko -->
         <div class="user-image">
-          <img src="@/components/icons/stones/SealOfByakko.webp" alt="img-SealOfByakko" class="img-stone"/>
-          <label class="label-total">{{ calculateTotalForSkyItem('SealOfByakko') }}</label>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfByakko')" class="button">-</button>
-          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfByakko')" class="button">+</button>
+          <img src="@/components/sky/SealOfByakko.webp" alt="img-SealOfByakko" class="img-sea"/>
+          <label class="label-total">&nbsp;&nbsp;&nbsp;{{
+              calculateTotalForSkyItem('SealOfByakko')
+            }}&nbsp;&nbsp;&nbsp;</label>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="decrementValue('SealOfByakko')"
+                  class="button">-
+          </button>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('SealOfByakko')"
+                  class="button">+
+          </button>
         </div>
       </div>
     </div>
@@ -133,36 +205,36 @@
   <div class="gods-set">
     <div class="container-gods-set">
       <!-- Genbu -->
-      <div class="user-image">
-        <img src="@/components/icons/stones/genbu.png" alt="img-genbu" class="img-godSet"/>
-        <label>
+      <div class="stuff-image">
+        <img src="@/components/sky/genbu.png" alt="img-genbu" class="img-godSet"/>
+        <label class="label-total">
           Genbu:
           <span>{{ calculateGenbuValue() }}</span>
         </label>
       </div>
 
       <!-- Seiryu -->
-      <div class="user-image">
-        <img src="@/components/icons/stones/seiryu.png" alt="img-seiryu" class="img-godSet"/>
-        <label>
+      <div class="stuff-image">
+        <img src="@/components/sky/seiryu.png" alt="img-seiryu" class="img-godSet"/>
+        <label class="label-total">
           Seiryu:
           <span>{{ calculateSeiryuValue() }}</span>
         </label>
       </div>
 
       <!-- Suzaku -->
-      <div class="user-image">
-        <img src="@/components/icons/stones/suzaku.png" alt="img-suzaku" class="img-godSet-stone"/>
-        <label>
+      <div class="stuff-image">
+        <img src="@/components/sky/suzaku.png" alt="img-suzaku" class="img-godSet-stone"/>
+        <label class="label-total">
           Suzaku:
           <span>{{ calculateSuzakuValue() }}</span>
         </label>
       </div>
 
       <!-- Byakko -->
-      <div class="user-image">
-        <img src="@/components/icons/stones/byakko.webp" alt="img-byakko" class="img-godSet"/>
-        <label>
+      <div class="stuff-image">
+        <img src="@/components/sky/byakko.webp" alt="img-byakko" class="img-godSet"/>
+        <label class="label-total">
           Byakko:
           <span>{{ calculateByakkoValue() }}</span>
         </label>
@@ -172,8 +244,8 @@
   <!--  ######################################################Sirin#################################################-->
   <!-- Kirin -->
   <div class="kirin">
-    <img src="@/components/icons/stones/kirin.webp" alt="img-kirin" class="img-godSet"/>
-    <label>
+    <img src="@/components/sky/kirin.webp" alt="img-kirin" class="img-godSet"/>
+    <label class="label-total">
       Kirin:
       <span>{{ calculateKirinValue() }}</span>
     </label>
@@ -268,10 +340,10 @@ const decrementValue = (item) => {
 
 const incrementValue = (item) => {
   selectedUsersDKP.value.forEach((userId) => {
-          if (item in inventory.sky) {
-            inventory.sky[item]++;
-            updateUserSelection(item, 1, userId);
-          }
+    if (item in inventory.sky) {
+      inventory.sky[item]++;
+      updateUserSelection(item, 1, userId);
+    }
   });
 
 
@@ -315,10 +387,6 @@ const calculateKirinValue = () => {
   const SealOfSeiryu = calculateTotalForSkyItem('SealOfSeiryu');
   const SealOfSuzaku = calculateTotalForSkyItem('SealOfSuzaku');
   const SealOfByakko = calculateTotalForSkyItem('SealOfByakko');
-  console.log('SealOfGenbu ' + SealOfGenbu)
-  console.log('SealOfSeiryu ' + SealOfSeiryu)
-  console.log('SealOfSuzaku ' + SealOfSuzaku)
-  console.log('SealOfByakko ' + SealOfByakko)
 
   return Math.min(SealOfGenbu, SealOfSeiryu, SealOfSuzaku, SealOfByakko);
 };
@@ -483,12 +551,21 @@ onMounted(async () => {
 }
 
 .button {
-//display: inline-block; padding: 0px 5px; /* Ajusta el espaciado interno según sea necesario */ background-color: #deecec; /* Color de fondo del botón */ color: #000000; /* Color del texto */ border: none; /* Sin borde */ border-radius: 4px; /* Bordes redondeados */ cursor: pointer; /* Cambia el cursor al pasar por encima */
-  text-align: center; /* Centra el texto horizontalmente */
-  text-decoration: none; /* Quita la subraya predeterminada para que parezca un botón */
+  cursor: pointer;
+  align-items: center;
+  color: #000000; /* Cambia el color del texto al blanco */
   font-weight: bold;
-  font-size: 12px;
-  background-color: #95a4ab;
+  background: linear-gradient(to bottom, #99a0a0, #8c9696); /* Fondo degradado */
+  border: 1px solid #b9c0c0; /* Borde con color similar al fondo */
+  border-bottom: 1px solid #8c9696; /* Borde inferior más oscuro para dar relieve */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+  transition: background 0.2s, transform 0.2s; /* Transiciones suaves */
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
 }
 
 /* Estilo cuando se pasa el mouse por encima */
@@ -504,7 +581,7 @@ input:checked {
 .gods {
   display: flex;
   justify-content: center;
-margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 .container-stone-gems {
@@ -524,23 +601,6 @@ margin-bottom: 100px;
   flex-direction: column;
 }
 
-.user-image {
-  text-align: left;
-  margin-bottom: 10px;
-  display: flex;
-}
-
-.user-image:last-child {
-  margin-bottom: 0;
-
-}
-
-.img-stone {
-  max-width: 100%;
-  margin-right: 5px;
-  margin-left: 10px;
-
-}
 
 .gods-set {
   text-align: center;
@@ -559,7 +619,7 @@ margin-bottom: 100px;
 }
 
 .kirin {
-  width:400px; /* Establece el ancho deseado, por ejemplo, 80px */
+  width: 400px; /* Establece el ancho deseado, por ejemplo, 80px */
   height: auto; /* Mantiene la proporción original de la imagen */
   display: block; /* Hace que la imagen sea un bloque para poder centrarla */
   margin: 0 auto; /* Centra la imagen horizontalmente */
@@ -568,7 +628,8 @@ margin-bottom: 100px;
 
 .label-total {
   width: 30px;
-
+  font-weight: bold;
+  color: gold ;
 }
 
 .user-list {
@@ -583,6 +644,12 @@ margin-bottom: 100px;
   margin-right: 10px; /* Espacio entre los elementos */
 }
 
+.user-image:last-child {
+  margin-bottom: 0;
+
+}
+
+
 .centered-content {
   display: flex;
   flex-direction: column;
@@ -592,15 +659,17 @@ margin-bottom: 100px;
   font-weight: bold;
   font-size: 40px;
 }
+
 .user-image .button {
   margin-bottom: 10px; /* Ajusta el valor del margen según tus preferencias */
   margin-top: 10px; /* Ajusta el valor del margen según tus preferencias */
   width: 30px;
 }
+
 .title {
   font-size: 46px; /* Tamaño de fuente más grande */
   font-weight: bold; /* Texto en negrita */
-  color: #0084ff; /* Color del texto (puedes cambiarlo según tus preferencias) */
+  color: gold; /* Color del texto (puedes cambiarlo según tus preferencias) */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto (opcional) */
 }
 </style>

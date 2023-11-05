@@ -1,11 +1,12 @@
-
 <template>
   <div class="greetings">
     <img src="@/assets/valhalla.png" alt="Fondo de Valhalla" />
     <br>
     <router-link class="back" to="/home">Back</router-link>
+    <p class="developers-info">
+      Developer: <span class="developer-name">Waky</span>, <span class="developer-name">Jballes</span>, Tester: <span class="tester-name">Pauwilla</span>
+    </p>
   </div>
-
 </template>
 
 <script setup>
@@ -53,5 +54,21 @@ const dialog = ref(true);
 
 .router-link:hover {
   text-decoration: underline;
+}
+.developers-info {
+  color: white;
+  text-align: center;
+  font-size: 16px;
+}
+
+.developer-name {
+  font-weight: bold;
+  color: #e74c3c; /* Color específico para nombres de desarrolladores */
+  margin: 0 5px; /* Espacio entre los nombres de los desarrolladores */
+}
+
+.tester-name {
+  font-weight: bold;
+  color: #933fd7; /* Color específico para el nombre del tester */
 }
 </style>
