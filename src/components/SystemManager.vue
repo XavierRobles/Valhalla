@@ -494,6 +494,9 @@ const applyChanges = () => {
 
       const userRef = rtdbRef(db, `user/${userId}`);
       rtdbSet(userRef, user);
+      backupUserData()
+      deleteOldDocuments()
+
     }
   });
   // Cost Item
@@ -517,6 +520,7 @@ const applyChanges = () => {
     }
   })
   backupUserData()
+  deleteOldDocuments()
 };
 
 function updateUserPoints(pointType, costValue, userId) {
@@ -604,6 +608,7 @@ const saveUserData = (userToUpdate) => {
     const userRef = rtdbRef(db, `user/${user.id}`);
     rtdbSet(userRef, user);
     backupUserData();
+    deleteOldDocuments()
   } catch (error) {
     console.error('Error saving user data:', error);
   }
@@ -707,7 +712,7 @@ const sortedUsers = computed(() => {
 const backupUserData = async () => {
   try {
     // const user = await loadUser();
-    const userData = await getUserData(); // Recolecta los datos de "user"
+    const userData = await getUserData();
     await saveUserDataToBackup(userData);
     console.log('Backup successful');
     console.log("save ok")
@@ -715,6 +720,34 @@ const backupUserData = async () => {
     console.error('Error during backup:', error);
   }
 };
+const deleteOldDocuments = async () => {
+  const db = getDatabase();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const oldestDate = new Date();
+  oldestDate.setDate(today.getDate() - 60); // 60 días o más de antigüedad
+
+  const rootRef = rtdbRef(db, 'backup');
+
+  try {
+    const snapshot = await rtdbGet(rootRef);
+
+    if (snapshot.exists()) {
+      const dates = Object.keys(snapshot.val());
+      for (const date of dates) {
+        const dateObj = new Date(date);
+
+        if (dateObj <= oldestDate) {
+          const dateRef = rtdbRef(db, 'backup/' + date);
+          await rtdbSet(dateRef, null);
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error al eliminar documentos antiguos:', error);
+  }
+};
+
 
 const getUserData = async () => {
   const userRef = rtdbRef(db, 'user/');
@@ -730,10 +763,14 @@ const getUserData = async () => {
 
 const saveUserDataToBackup = async (userData) => {
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Formatea el mes
+  const day = currentDate.getDate().toString().padStart(2, '0'); // Formatea el día
+  const formattedDate = `${year}-${month}-${day}`;
   const backupRef = rtdbRef(db, `backup/${formattedDate}`);
   await rtdbSet(backupRef, userData);
 };
+
 
 const handleFieldChanges = (user) => {
   watch(() => [user.sky, user.sea, user.dynamis], () => {

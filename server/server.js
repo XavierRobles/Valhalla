@@ -45,7 +45,7 @@ app.get('/status', (req, res) => {
 // Ruta para obtener datos de Firebase
 app.get('/get-data', async (req, res) => {
 	try {
-		const snapshot = await db.ref('users').once('value');
+		const snapshot = await db.ref('user').once('value');
 		const data = snapshot.val();
 		console.log('Datos obtenidos desde Firebase:', data);
 		res.json({ message: 'Datos obtenidos de Firebase', data });

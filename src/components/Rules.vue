@@ -6,7 +6,7 @@
 
       <div v-if="editing" class="edit-mode">
         <div class="text-area-container">
-          <textarea v-model="rules" class="editable-textarea resizable" ref="rulesTextarea"></textarea>
+          <textarea v-model="rules_valhalla" class="editable-textarea resizable" ref="rulesTextarea"></textarea>
         </div>
         <div class="text-area-container">
           <textarea v-model="skyRules" class="editable-textarea resizable" ref="skyRulesTextarea"></textarea>
@@ -15,9 +15,11 @@
           <textarea v-model="seaRules" class="editable-textarea resizable" ref="seaRulesTextarea"></textarea>
         </div>
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" class="button-edit" @click="saveRules">Save</button>
+        <button class="button-edit" @click="cancelEditing">Cancel</button>
+
       </div>
       <div v-else class="label-mode">
-        <div class="large-text" v-html="rules"></div>
+        <div class="large-text" v-html="rules_valhalla"></div>
         <br>
         <div class="large-text" v-html="skyRules"></div>
         <br>
@@ -38,7 +40,7 @@ const db = getDatabase(firebaseApp);
 
 let userRole = ref('');
 const editing = ref(false);
-let rules = ref('');
+let rules_valhalla = ref('');
 let skyRules = ref('');
 let seaRules = ref('');
 const dataLoaded = ref(false);
@@ -49,13 +51,13 @@ const startEditing = () => {
 
 const saveRules = () => {
   editing.value = false;
-  saveRulesToDatabase(rules.value, skyRules.value, seaRules.value);
+  saveRulesToDatabase(rules_valhalla.value, skyRules.value, seaRules.value);
 };
 const saveRulesToDatabase = (rulesText, skyRulesText, seaRulesText) => {
-  const rulesRef = rtdbRef(db, 'rules');
+  const rulesRef = rtdbRef(db, 'rules_ls/');
 
   const data = {
-    rules: rulesText,
+    rules_valhalla: rulesText,
     skyRules: skyRulesText,
     seaRules: seaRulesText,
   };
@@ -66,6 +68,9 @@ const saveRulesToDatabase = (rulesText, skyRulesText, seaRulesText) => {
       .catch((error) => {
         console.error('Error al guardar las reglas:', error);
       });
+};
+const cancelEditing = () => {
+  editing.value = false;
 };
 const loadUser = async () => {
   const user = await new Promise((resolve) => {
@@ -88,13 +93,13 @@ const loadUser = async () => {
   }
 };
 const loadRules = async () => {
-  const rulesRef = rtdbRef(db, 'rules');
+  const rulesRef = rtdbRef(db, 'rules_ls/');
 
   const snapshot = await rtdbGet(rulesRef);
   try {
     if (snapshot.exists()) {
       const rulesData = snapshot.val();
-      rules.value = rulesData.rules;
+      rules_valhalla.value = rulesData.rules_valhalla;
       skyRules.value = rulesData.skyRules;
       seaRules.value = rulesData.seaRules;
     } else {
@@ -132,6 +137,7 @@ onMounted(async () => {
   resize: both;
   overflow: auto;
   font-size: 16px;
+  background-color: #979d9b;
 }
 
 .resizable {

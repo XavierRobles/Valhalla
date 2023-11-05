@@ -48,54 +48,48 @@
     <p v-else class="no-records">No records found</p>
   </div>
 </template>
+
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { getDatabase, ref as rtdbRef, get as rtdbGet } from 'firebase/database';
+import { onMounted, ref, watch } from 'vue';
+import { get as rtdbGet, getDatabase, ref as rtdbRef } from 'firebase/database';
+
 const highlightedRow = ref(null);
-
-const highlightRow = (userId) => {
-  highlightedRow.value = userId;
-};
-
-const unhighlightRow = () => {
-  highlightedRow.value = null;
-};
 const displayedUsers = ref([]);
 const usersPerPage = 10;
 let currentPage = 1;
 const currentDateIndex = ref(0);
 const currentDay = ref('');
 let sortColumn = ref('');
-let sortDirection = ref('asc'); // Ascendente por defecto
+let sortDirection = ref('asc');
+const maxDaysToShow = 60; // Cambiar esto para mas o menos dias
 
-const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-const endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+const startDate = new Date();
+startDate.setDate(startDate.getDate() - maxDaysToShow);
 
-const datesInCurrentMonth = ref([]);
+const datesInRange = ref([]);
 
-const loadDatesInCurrentMonth = () => {
+const loadDatesInRange = () => {
   const currentDate = new Date(startDate);
-  while (currentDate <= endDate) {
-    datesInCurrentMonth.value.push(currentDate.toISOString().slice(0, 10));
+  while (currentDate <= new Date()) {
+    datesInRange.value.push(currentDate.toISOString().slice(0, 10));
     currentDate.setDate(currentDate.getDate() + 1);
   }
 };
 
-const loadUsersByDate = async () => {
+const loadUsersByDate = async (index) => {
   const db = getDatabase();
-  if (currentDateIndex.value >= 0 && currentDateIndex.value < datesInCurrentMonth.value.length) {
-    const date = datesInCurrentMonth.value[currentDateIndex.value];
+  if (index >= 0 && index < datesInRange.value.length) {
+    const date = datesInRange.value[index];
     const dateRef = rtdbRef(db, 'backup/' + date);
 
     try {
       const snapshot = await rtdbGet(dateRef);
       if (snapshot.exists()) {
         const userData = snapshot.val();
-        const usersArray = Object.keys(userData).map((userId) => ({
+        displayedUsers.value = Object.keys(userData).map((userId) => ({
           id: userId,
           ...userData[userId],
         }));
-        displayedUsers.value = usersArray;
       } else {
         displayedUsers.value = [];
         console.warn('No se encontraron datos en la fecha ' + date);
@@ -104,13 +98,13 @@ const loadUsersByDate = async () => {
       console.error('Error al cargar datos de la fecha ' + date + ':', error);
     }
   }
-  currentDay.value = datesInCurrentMonth.value[currentDateIndex.value];
+  currentDay.value = datesInRange.value[index];
 };
 
 const loadPrevPage = () => {
   if (currentDateIndex.value > 0) {
     currentDateIndex.value -= 1;
-    loadUsersByDate();
+    loadUsersByDate(currentDateIndex.value);
     isFirstPage.value = currentDateIndex.value === 0;
     isLastPage.value = false;
   } else {
@@ -122,34 +116,24 @@ const isFirstPage = ref(false);
 const isLastPage = ref(false);
 
 const loadNextPage = () => {
-  const today = new Date();
-  today.setDate(today.getDate() - 1);
-
-  if (currentDateIndex.value < datesInCurrentMonth.value.length - 1) {
-    const currentDate = new Date(datesInCurrentMonth.value[currentDateIndex.value]);
-
-    if (currentDate < today) {
-      currentDateIndex.value += 1;
-      loadUsersByDate();
-      isFirstPage.value = false;
-    } else {
-      isLastPage.value = true;
-    }
+  if (currentDateIndex.value < datesInRange.value.length - 1) {
+    currentDateIndex.value += 1;
+    loadUsersByDate(currentDateIndex.value);
+    isFirstPage.value = false;
+  } else {
+    isLastPage.value = true;
   }
 };
+
 const sortTable = (column) => {
-  // Revisa la dirección de orden actual y cambia entre ascendente y descendente
   if (sortColumn === column) {
     sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
   } else {
-    // Si se hace clic en una nueva columna, establece la columna y dirección de orden
     sortColumn = column;
     sortDirection = 'asc';
   }
 
-  // Realiza la clasificación en función de la columna y dirección de orden
   displayedUsers.value.sort((a, b) => {
-    // Asumo que los valores en las columnas son cadenas, si son números, ajusta la lógica
     if (sortDirection === 'asc') {
       return a[column] > b[column] ? 1 : -1;
     } else {
@@ -159,21 +143,13 @@ const sortTable = (column) => {
 };
 
 onMounted(() => {
-  loadDatesInCurrentMonth();
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 1);
-  const formattedDate = currentDate.toISOString().slice(0, 10);
-  currentDateIndex.value = datesInCurrentMonth.value.indexOf(formattedDate);
-
-  if (currentDateIndex.value === -1) {
-    currentDateIndex.value = datesInCurrentMonth.value.length - 1;
-  }
-
-  loadUsersByDate();
+  loadDatesInRange();
+  currentDateIndex.value = datesInRange.value.length - 1;
+  loadUsersByDate(currentDateIndex.value);
 });
 
 watch(currentDateIndex, () => {
-  currentDay.value = datesInCurrentMonth.value[currentDateIndex.value];
+  currentDay.value = datesInRange.value[currentDateIndex.value];
 });
 </script>
 
