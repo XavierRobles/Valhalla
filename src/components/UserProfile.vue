@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-details-title">
     <div v-if="user">
       <div class="user-name">
         <h2>{{ user.name }}</h2>
@@ -10,6 +10,7 @@
           <span class="field-label">{{ user.email }}</span>
         </div>
         <button class="edit-button" @click="toggleEditing">{{ isEditing ? 'Save' : 'Edit Profile' }}</button>
+        <button v-if="isEditing" @click="cancelEditing" class="edit-button">Cancel</button>
         <br>
         <img :src="randomIcon" alt="pic" class="icon" style="width: 250px; height: 250px;">
       </div>
@@ -139,7 +140,6 @@
         </div>
         <div class="dkp">
           <div class="dkp2">
-<!--            <img src="@/components/icons/hammer.png" alt="Ícono de dragón" class="icon">-->
             <label for="dkp" class="field-label-dkp">DKP:</label>
             <span class="field-label-dkp field-dkp">{{ user.dkp }}</span>
           </div>
@@ -264,10 +264,14 @@ const searchUser = async () => {
 
 const toggleEditing = () => {
   if (isEditing.value) {
-    // Si está en modo edición, guarda los datos
     saveUserData(user.value);
   }
   isEditing.value = !isEditing.value;
+};
+const cancelEditing = () => {
+  isEditing.value = false;
+
+  searchUser();
 };
 
 onMounted(() => {
@@ -278,7 +282,7 @@ watch(userId, searchUser);
 </script>
 <style scoped>
 .user-details-title {
-
+  margin: 0 20px;
 }
 
 .field-label {

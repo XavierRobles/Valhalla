@@ -63,7 +63,7 @@
         <router-link to="/rules">
           <div class="nav-item-container">
             <div class="nav-item">
-              <img v-if="!isExpanded" src="@/components/icons/hammer.png" height="50" width="52" alt="" />
+              <img v-if="!isExpanded" src="@/components/icons/rules.png" height="50" width="52" alt="" />
               <span class="nav-text">Rules</span>
             </div>
           </div>

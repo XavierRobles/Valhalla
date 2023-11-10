@@ -56,7 +56,7 @@
         </button>
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Winterstone')" class="button">
           +
-        </button>
+        </button>&nbsp;&nbsp;&nbsp;
         <img src="@/components/sky/Gem_of_the_North.webp" alt="img-Gem-of-the-North" class="img-sea"/>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheNorth')
@@ -79,7 +79,7 @@
         </button>
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Springstone')" class="button">
           +
-        </button>
+        </button>&nbsp;&nbsp;&nbsp;
         <img src="@/components/sky/GemOfTheEast.webp" alt="img-GemOfTheEast" class="img-sea"/>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheEast')
@@ -103,7 +103,7 @@
         </button>
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Summerstone')" class="button">
           +
-        </button>
+        </button>&nbsp;&nbsp;&nbsp;
         <img src="@/components/sky/GemOfTheSouth.webp" alt="img-GemOfTheSouth" class="img-sea"/>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheSouth')
@@ -127,7 +127,7 @@
         </button>
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Autumnstone')" class="button">
           +
-        </button>
+        </button>&nbsp;&nbsp;&nbsp;
         <img src="@/components/sky/GemOfTheWest.webp" alt="img-GemOfTheWest" class="img-sea"/>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheWest')

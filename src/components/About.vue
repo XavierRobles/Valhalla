@@ -1,36 +1,50 @@
 <template>
   <div class="greetings">
     <img src="@/assets/valhalla.png" alt="Fondo de Valhalla" />
-    <br>
+    <br />
     <router-link class="back" to="/home">Back</router-link>
-    <p class="developers-info">
-      Developer: <span class="developer-name">Waky</span>, <span class="developer-name">Jballes</span>, Tester: <span class="tester-name">Pauwilla</span>
-    </p>
+
+    <div class="section">
+      <h2 class="section-title">Leadership</h2>
+      <p class="info">
+        <span class="label">Leaders:</span> <span class="value">Evileye, Honzo</span>
+      </p>
+      <p class="info">
+        <span class="label">Coliders:</span> <span class="value">Waky, Shirro, Sleepygirl, Chevalfou</span>
+      </p>
+      <p class="info">
+        <span class="label">Officials:</span> <span class="value">Capoute, Duraan, Odinpr</span>
+      </p>
+      <p class="info">
+        <span class="label">Community Support:</span> <span class="value">Isthar</span>
+      </p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Development and Testing</h2>
+      <p class="info">
+        <span class="label">Developers:</span> <span class="value developer-name">Waky, Jballes</span>
+      </p>
+      <p class="info">
+        <span class="label">Tester:</span> <span class="value tester-name">Pauwilla</span>
+      </p>
+    </div>
   </div>
 </template>
 
-<script setup>
-import {ref} from "vue";
-
-const loading = ref(false);
-const dialog = ref(true);
-</script>
-
 <style scoped>
-
 .back {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 10px 20px;
   background-color: #95a4ab;
   color: #000000;
   text-decoration: none;
   border-radius: 5px;
-  margin-bottom: 5px;
-  transition: background-color 0.3s, color 0.3s; /* Transiciones suaves para color de fondo y texto */
+  margin-top: 10px;
+  transition: background-color 0.3s, color 0.3s;
   font-weight: bold;
 }
 
-/* Cambia el color de fondo y el texto al pasar el ratón sobre el botón */
 .back:hover {
   background-color: #687377;
   color: #e74c3c;
@@ -44,31 +58,39 @@ const dialog = ref(true);
   text-align: center;
 }
 
-/* Estilo para el enlace "Volver" */
-.router-link {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+.section {
   margin-top: 20px;
 }
 
-.router-link:hover {
-  text-decoration: underline;
+.section-title {
+  font-size: 24px;
+  color: #e74c3c;
+  margin-bottom: 10px;
 }
-.developers-info {
+
+.info {
   color: white;
   text-align: center;
   font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-weight: bold;
+  color: #e74c3c;
+  margin-right: 5px;
+}
+
+.value {
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .developer-name {
-  font-weight: bold;
-  color: #e74c3c; /* Color específico para nombres de desarrolladores */
-  margin: 0 5px; /* Espacio entre los nombres de los desarrolladores */
+  color: #4caf50; /* Cambiado a verde (#4caf50) */
 }
 
 .tester-name {
-  font-weight: bold;
-  color: #933fd7; /* Color específico para el nombre del tester */
+  color: #933fd7;
 }
 </style>

@@ -1,17 +1,22 @@
 <template>
   <div class="home">
     <div class="event-table-config">
+      <div class="table-header">
+        <h2>Points for Attendance</h2>
+      </div>
       <table class="event-table">
         <thead>
         <tr>
-          <th>Config</th>
           <th>Event</th>
+          <th>Points</th>
+          <th>Type</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(value, field) in eventData" :key="field">
-          <td>{{ field }}</td>
-          <td>{{ value }}</td>
+        <tr v-for="(event, data) in eventData" :key="data">
+          <td>{{ data }}</td>
+          <td>{{ event.points }}</td>
+          <td>{{ event.type }}</td>
         </tr>
         </tbody>
       </table>
@@ -52,10 +57,10 @@
           <td>{{ user.sub_job }}</td>
           <td>{{ user.sub_job_2 }}</td>
           <td>{{ user.craft }} / {{ user.craft_level }}</td>
-          <td>{{ user.event }}</td>
           <td>{{ user.sky }}</td>
           <td>{{ user.sea }}</td>
           <td>{{ user.dynamis }}</td>
+          <td>{{ user.event }}</td>
           <td>{{ user.overall }} %</td>
         </tr>
         </tbody>
@@ -93,27 +98,12 @@ const loadUsers = async () => {
     console.error(error.message);
   }
 };
-
-// const assignRoleToUser = async (userId, role) => {
-//   debugger
-//   const userRef = rtdbRef(db, 'user/' + userId);
-//
-//   try {
-//     // Asignar el rol al usuario en la base de datos en tiempo real.
-//     await rtdbSet(userRef, { role });
-//     console.log(`Rol '${role}' asignado al usuario con ID '${userId}'.`);
-//   } catch (error) {
-//     console.error('Error al asignar el rol al usuario:', error.message);
-//   }
-// };
-//
-// // Uso de la función para asignar un rol a un usuario.
-// const userId = userData[user.uid]; // Debes reemplazar con el ID del usuario.
-// const newRole = 'JARL'; // El rol que deseas asignar al usuario.
-// assignRoleToUser(userId, newRole);
-
-
-
+const filteredUsers = computed(() => {
+  return displayedUsers.value.filter(user => {
+    // Asumiendo que cada usuario tiene una propiedad 'eventPointType'
+    return user.eventPointType === 'dkp' || user.eventPointType === 'dkp dynamis';
+  });
+});
 const loadUser = async () => {
   const user = await new Promise((resolve) => {
     onAuthStateChanged(auth, (user) => {
@@ -137,19 +127,21 @@ const loadUser = async () => {
 const eventData = ref({});
 
 const loadEventData = async () => {
+  const db = getDatabase();
   const eventOptionsRef = rtdbRef(db, 'event_options/');
 
   try {
     const snapshot = await rtdbGet(eventOptionsRef);
     if (snapshot.exists()) {
       eventData.value = {
-        Sky: snapshot.val().skyValue,
-        Sea: snapshot.val().seaValue,
-        Dynamis: snapshot.val().dynamisValue,
-        HNM: snapshot.val().hnmValue,
-        'Hunt Group': snapshot.val().huntGroupValue,
-        'Free Event': snapshot.val().freeEventValue,
-        'Total LS Events': snapshot.val().total_ls_events,
+        Sky: { points: snapshot.val().skyValue, type: snapshot.val().skyPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        Sea: { points: snapshot.val().seaValue, type: snapshot.val().seaPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        Limbus: { points: snapshot.val().limbusValue, type: snapshot.val().limbusPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        Dynamis: { points: snapshot.val().dynamisValue, type: snapshot.val().dynamisPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        HNM: { points: snapshot.val().hnmValue, type: snapshot.val().hnmPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        'Hunt Group': { points: snapshot.val().huntGroupValue, type: snapshot.val().huntGroupPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        'Free Event': { points: snapshot.val().freeEventValue, type: snapshot.val().freeEventPointType === 'dynamis_dkp' ? 'DKP Dynamis' : 'DKP' },
+        'Total LS Events': { points: snapshot.val().total_ls_events, type: 'Events' },
       };
     } else {
       console.error('No se encontraron datos en la colección event_options.');
@@ -244,7 +236,8 @@ table, th, td {
 
 
 
-}table, th, td {
+}
+table, th, td {
   border: 1px solid #687377;
   padding: 8px;
 
@@ -343,7 +336,6 @@ th {
   width: 10%;
   background-color: rgba(0, 0, 0, 0);
   z-index: 1;
-  border-left: 1px solid #687377;
 
 }
 
@@ -372,6 +364,31 @@ th {
   padding-left: 5px;
 }
 .highlighted-row:hover {
+  background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
+}
+
+.table-header {
+  background-color: #687377;
+  color: #000000;
+  padding: 1px;
+  border-radius: 8px;
+  text-align: center;
+  overflow: hidden; /* Añadir overflow: hidden para corregir el problema de extensión */
+}
+
+h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+tr:hover {
   background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
 }
 </style>

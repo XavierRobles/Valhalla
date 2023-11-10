@@ -26,7 +26,7 @@
       <tr
           v-for="user in displayedUsers"
           :key="user.id"
-          :class="{ 'highlighted-row': user.id === highlightedRow }"
+          :class="{ 'highlighted-row': highlightedRowIndex === user.id }"
           @mouseover="highlightRow(user.id)"
           @mouseout="unhighlightRow()"
           class="row-highlight">
@@ -141,6 +141,14 @@ const sortTable = (column) => {
     }
   });
 };
+const highlightedRowIndex = ref(-1);
+const highlightRow = (index) => {
+  highlightedRowIndex.value = index;
+};
+
+const unhighlightRow = () => {
+  highlightedRowIndex.value = -1; // Cuando el cursor se mueve fuera de la fila, se restablece a -1
+};
 
 onMounted(() => {
   loadDatesInRange();
@@ -192,9 +200,13 @@ button {
   font-weight: bold;
 }
 
-/* Estilos para filas destacadas */
 .highlighted-row {
   background-color: #687377;
+  transition: background-color 0.3s; /* Agrega una transición para suavizar el cambio de color */
+}
+
+.highlighted-row:hover {
+  background-color: hsl(5, 42%, 31%);
 }
 
 /* Estilos para encabezados de columna ordenable */
@@ -224,7 +236,7 @@ button {
   transition: opacity 0.2s ease-in-out;
 }
 
-sortable-header.active {
+.sortable-header.active {
   background-color: #687377; /* Cambia el color de fondo cuando está activo */
 }
 
@@ -242,9 +254,6 @@ sortable-header.active {
 .desc:after {
   content: ' ↓';
   padding-left: 5px;
-}
-.highlighted-row:hover {
-  background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
 }
 
 .button-day {

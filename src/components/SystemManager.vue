@@ -50,6 +50,14 @@
           </select>
         </div>
         <div class="value-item">
+          <label for="limbus">Limbus:</label>
+          <input type="number" id="limbus" v-model="limbusValue" class="setting-input" @input="saveEventOptions"/>
+          <select v-model="limbusPointType" class="select-input" @change="saveEventOptions">
+            <option value="dkp">DKP</option>
+            <option value="dynamis_dkp">DKP Dynamis</option>
+          </select>
+        </div>
+        <div class="value-item">
           <label for="dynamis">Dynamis:</label>
           <input type="number" id="dynamis" v-model="dynamisValue" class="setting-input" @input="saveEventOptions"/>
           <select v-model="dynamisPointType" class="select-input" @change="saveEventOptions">
@@ -168,6 +176,7 @@
         <option value="" disabled selected>Select Event</option>
         <option value="sky">Sky</option>
         <option value="sea">Sea</option>
+        <option value="limbus">Limbus</option>
         <option value="dynamis">Dynamis</option>
         <option value="hnm">HNM</option>
         <option value="huntGroup">Hunt Group</option>
@@ -416,6 +425,7 @@ const limbusBossPointType = ref("");
 const seaJailersPointType = ref("");
 const skyPointType = ref("");
 const seaPointType = ref("");
+const limbusPointType = ref("");
 const dynamisPointType = ref("");
 const hnmEventPointType = ref("");
 const huntGroupPointType = ref("");
@@ -425,6 +435,7 @@ const freeEventPointType = ref("");
 const total_ls_events = ref(1);
 const skyValue = ref(0);
 const seaValue = ref(0);
+const limbusValue = ref(0);
 const dynamisValue = ref(0);
 const hnmValue = ref(0);
 const huntGroupValue = ref(0);
@@ -471,6 +482,11 @@ const applyChanges = () => {
       } else if (selectEventType.value === 'sea') {
         point = seaPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
         user[point] += seaValue.value;
+        user.sea += 1;
+        user.event += 1;
+      } else if (selectEventType.value === 'limbus') {
+        point = limbusPointType.value === 'dynamis_dkp' ? 'dynamis_dkp' : 'dkp';
+        user[point] += limbusValue.value;
         user.sea += 1;
         user.event += 1;
       } else if (selectEventType.value === 'dynamis') {
@@ -554,6 +570,7 @@ const saveEventOptions = () => {
       // Assistance
       skyValue: skyValue.value,
       seaValue: seaValue.value,
+      limbusValue: limbusValue.value,
       dynamisValue: dynamisValue.value,
       hnmValue: hnmValue.value,
       huntGroupValue: huntGroupValue.value,
@@ -580,6 +597,7 @@ const saveEventOptions = () => {
       seaJailersPointType: seaJailersPointType.value,
       skyPointType: skyPointType.value,
       seaPointType: seaPointType.value,
+      limbusPointType: limbusPointType.value,
       dynamisPointType: dynamisPointType.value,
       hnmEventPointType: hnmEventPointType.value,
       huntGroupPointType: huntGroupPointType.value,
@@ -624,6 +642,7 @@ const loadOptionEvent = async () => {
       // Events
       skyValue.value = optionEventData.skyValue || 0;
       seaValue.value = optionEventData.seaValue || 0;
+      limbusValue.value = optionEventData.limbusValue || 0;
       dynamisValue.value = optionEventData.dynamisValue || 0;
       hnmValue.value = optionEventData.hnmValue || 0;
       huntGroupValue.value = optionEventData.huntGroupValue || 0;
@@ -650,6 +669,7 @@ const loadOptionEvent = async () => {
       seaJailersPointType.value = optionEventData.seaJailersPointType || "dkp";
       skyPointType.value = optionEventData.skyPointType || "dkp";
       seaPointType.value = optionEventData.seaPointType || "dkp";
+      limbusPointType.value = optionEventData.limbusPointType || "dkp";
       dynamisPointType.value = optionEventData.dynamisPointType || "dkp";
       hnmEventPointType.value = optionEventData.hnmEventPointType || "dkp";
       huntGroupPointType.value = optionEventData.huntGroupPointType || "dkp";

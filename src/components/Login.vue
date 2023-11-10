@@ -146,6 +146,7 @@ const completeProfile = async () => {
         dynamis_dkp: 0,
         rol: 'KARL',
         event_date: formattedDate,
+        register_date: formattedDate,
         inventory: {}
       };
       await rtdbSet(userRef, data);
@@ -242,26 +243,32 @@ onMounted(() => {
   margin-right: 30px;
 }
 
-.logo-square {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  max-width: 200px; /* Ancho máximo de la imagen */
-  max-height: 200px; /* Altura máxima de la imagen */
+.logo-square,
+.logo-ffxi,
+.logo-horizon {
+  max-width: 15%;
+  height: auto;
 }
+
+.logo-square {
+  position: absolute;
+  bottom: 10px;
+  right: 80px;
+}
+
 .logo-ffxi {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  max-width: 300px;
-  max-height: 300px;
 }
+
 .logo-horizon {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
-  left: 10px;
-  max-width:200px;
-  max-height: 200px;
+  left: 80px;
 }
+
+
+
 </style>

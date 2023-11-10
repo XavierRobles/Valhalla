@@ -7,7 +7,7 @@ import SystemManager from "@/components/SystemManager.vue";
 import VersionHistory from "@/components/VersionHistory.vue";
 import Event from "@/components/Event.vue";
 import Sky from "@/components/Sky.vue";
-import Sea from "@/components/Sea.vue";
+import TabSea from "@/components/TabSea.vue";
 import Dynamis from "@/components/Dynamis.vue";
 import Rules from "@/components/Rules.vue";
 import About from '@/components/About.vue';
@@ -16,6 +16,7 @@ import About from '@/components/About.vue';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getDatabase, ref as rtdbRef, get as rtdbGet} from 'firebase/database';
 import {firebaseApp} from "@/main";
+
 
 
 
@@ -59,7 +60,7 @@ const routes = [
     },
     {
         path: '/sea',
-        component: Sea,
+        component: TabSea,
         name: 'Sea',
         meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
     },
