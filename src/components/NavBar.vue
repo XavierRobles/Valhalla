@@ -78,6 +78,8 @@
             </div>
           </div>
         </router-link>
+        <!-- Nuevo div para el texto de la versión -->
+        <div class="version-text">V. 1.0.2</div>
       </li>
     </ul>
   </div>
@@ -204,6 +206,12 @@ const collapseNavbar = () => {
 /* Cambia el fondo al pasar el cursor */
 .navbar .nav-link:hover::before {
   background-color: rgba(68, 68, 68, 0.3); /* Color de fondo al pasar el cursor */
+}
+.version-text {
+  font-size: 12px;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #ebf4ff;
 }
 </style>
 
