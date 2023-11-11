@@ -37,10 +37,10 @@
         <td>{{ user.sub_job }}</td>
         <td>{{ user.sub_job_2 }}</td>
         <td>{{ user.craft }} / {{ user.craft_level }}</td>
-        <td>{{ user.event }}</td>
         <td>{{ user.sky }}</td>
         <td>{{ user.sea }}</td>
         <td>{{ user.dynamis }}</td>
+        <td>{{ user.event }}</td>
         <td>{{ user.overall }} %</td>
       </tr>
       </tbody>
@@ -152,12 +152,12 @@ const unhighlightRow = () => {
 
 onMounted(() => {
   loadDatesInRange();
-  currentDateIndex.value = datesInRange.value.length - 1;
+  currentDateIndex.value = datesInRange.value.findIndex(date => date === new Date().toISOString().slice(0, 10));
   loadUsersByDate(currentDateIndex.value);
 });
 
 watch(currentDateIndex, () => {
-  currentDay.value = datesInRange.value[currentDateIndex.value];
+  currentDay.value = datesInRange.value[currentDateIndex.value +1];
 });
 </script>
 
