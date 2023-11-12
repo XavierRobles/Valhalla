@@ -7,13 +7,13 @@
     <div class="section">
       <h2 class="section-title">Leadership</h2>
       <p class="info">
-        <span class="label">Leaders:</span> <span class="value">Evileye, Honzo</span>
+        <span class="label">Leaders:</span> <span class="value">Evileye</span>
       </p>
       <p class="info">
-        <span class="label">Coliders:</span> <span class="value">Waky, Shirro, Sleepygirl, Chevalfou</span>
+        <span class="label">Co-leaders:</span> <span class="value">Waky, Honzo, Shirro, Sleepygirl, Chevalfou</span>
       </p>
       <p class="info">
-        <span class="label">Officials:</span> <span class="value">Capoute, Duraan, Odinpr</span>
+        <span class="label">Officers:</span> <span class="value">Capoutefrancais, Duraan, Odinpr</span>
       </p>
       <p class="info">
         <span class="label">Community Support:</span> <span class="value">Isthar</span>

@@ -80,6 +80,11 @@
         </router-link>
         <!-- Nuevo div para el texto de la versión -->
         <div class="version-text">V. 1.0.2</div>
+        <a href="https://discord.gg/2KEZqSzH" target="_blank" class="discord-icon">
+          <img v-if="!isExpanded" src="@/components/icons/discord.png" alt="Discord Icon" height="28" width="35" />
+          <img v-else src="@/components/icons/discord.svg" alt="Discord Icon" class="discord-img" />
+        </a>
+
       </li>
     </ul>
   </div>
@@ -212,6 +217,22 @@ const collapseNavbar = () => {
   margin-top: 15px;
   font-weight: bold;
   color: #ebf4ff;
+}
+.discord-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #ebf4ff;
+  margin-top: 5px;
+}
+
+.discord-icon img {
+  margin-right: 5px;
+}
+.discord-img {
+  width:90px;
+  height: 90px;
 }
 </style>
 
