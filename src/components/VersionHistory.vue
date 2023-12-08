@@ -15,10 +15,10 @@
         <th @click="sortTable('sub_job')" class="sortable-header">Sub Job <span :class="sortColumn === 'sub_job' ? sortDirection : ''"></span></th>
         <th @click="sortTable('sub_job_2')" class="sortable-header">Sub Job 2 <span :class="sortColumn === 'sub_job_2' ? sortDirection : ''"></span></th>
         <th @click="sortTable('craft')" class="sortable-header" :class="sortColumn === 'craft' ? sortDirection : ''">Craft <span>/</span> lv <span :class="sortColumn === 'craft_level' ? sortDirection : ''"></span></th>
-        <th @click="sortTable('event')" class="sortable-header">Event <span :class="sortColumn === 'event' ? sortDirection : ''"></span></th>
         <th @click="sortTable('sky')" class="sortable-header">Sky <span :class="sortColumn === 'sky' ? sortDirection : ''"></span></th>
         <th @click="sortTable('sea')" class="sortable-header">Sea <span :class="sortColumn === 'sea' ? sortDirection : ''"></span></th>
         <th @click="sortTable('dynamis')" class="sortable-header">Dynamis <span :class="sortColumn === 'dynamis' ? sortDirection : ''"></span></th>
+        <th @click="sortTable('event')" class="sortable-header">Event <span :class="sortColumn === 'event' ? sortDirection : ''"></span></th>
         <th @click="sortTable('overall')" class="sortable-header">Overall %<span :class="sortColumn === 'overall' ? sortDirection : ''"></span></th>
       </tr>
       </thead>
@@ -148,6 +148,12 @@ const highlightRow = (index) => {
 
 const unhighlightRow = () => {
   highlightedRowIndex.value = -1; // Cuando el cursor se mueve fuera de la fila, se restablece a -1
+};
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const goBack = () => {
+  router.go(-1); // Retrocede un paso en el historial del router (-1)
 };
 
 onMounted(() => {

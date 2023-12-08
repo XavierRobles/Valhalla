@@ -2,7 +2,7 @@
   <div>
     <NavBar/>
     <div class="login">
-      <div class="content">
+      <div class="content-title">
         <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="300" height="300"/>
         <div v-if="!showFields" class="collapsed">
           <h3><span class="title">VALHALLA</span></h3>
@@ -183,7 +183,7 @@ onMounted(() => {
   align-items: center;
 }
 
-.content {
+.content-title {
   text-align: center;
 }
 

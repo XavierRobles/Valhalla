@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content-title">
     <div class="centered-content">
       <h3><span class="title">Limbus</span></h3>
     </div>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <!--  ######################################################User list Checkbox#####################################-->
-  <div class="content" v-if="userRole === 'JARL' || userRole === 'EARL'">
+  <div class="content-title" v-if="userRole === 'JARL' || userRole === 'EARL'">
     <div class="left-half">
       <div class="accordion-title" @click="userToggleAccordion">
         <span class="button">User List</span>
@@ -42,6 +42,10 @@
         </ul>
       </div>
     </div>
+    <label class="userCounter" v-if="selectedUsers.length > 0">Total members selected: {{ selectedUsers.length }}</label>
+    <br>
+    <button class="button" v-if="selectedUsers.length > 0" @click="clearSelection">Clear</button>
+    <br>
   </div>
   <!--  ######################################################Gem######################################################-->
   <div class="gods">
@@ -134,8 +138,9 @@
       <span>{{ calculateUltimaValue() }}</span>
     </label>
   </div>
-
-
+  <div>
+    <div>  <button class="button-back" @click="goBack()">Back</button></div>
+  </div>
 </template>
 
 <script setup>
@@ -153,7 +158,9 @@ const isOpenUserList = ref(false);
 const isOpenUserListInventory = ref(false);
 const selectedUsers = ref([]);
 const selectedUsersDKP = ref([]);
-
+const clearSelection = () => {
+  selectedUsers.value = [];
+};
 const inventory = {
   limbus: {
     Charcoal_chip: 0,
@@ -387,13 +394,19 @@ const loadUser = async () => {
     console.error('Error loading user:', error);
   }
 };
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const goBack = () => {
+  router.go(-1); // Retrocede un paso en el historial del router (-1)
+};
 onMounted(async () => {
   await loadUser();
   await loadUsers();
 });
 </script>
 <style scoped>
-.content {
+.content-title {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -566,5 +579,37 @@ text-align: center;
   padding: 10px;
   color: #687377;
   border-bottom: 1px solid #333;
+}
+.userCounter {
+  font-size: 16px;
+  color: #079009;
+  font-weight: bold;
+}
+.button-back {
+  /* Propiedades para centrar horizontalmente */
+  margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
+  display: block; /* Convertir el botón en un bloque para aplicar márgenes y centrado */
+
+  /* Estilos restantes del botón (los que ya están presentes) */
+  cursor: pointer;
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: linear-gradient(to bottom, #99a0a0, #8c9696);
+  border: 1px solid #b9c0c0;
+  border-bottom: 1px solid #8c9696;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s, transform 0.2s;
+}
+.button-back:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Estilo cuando se pasa el mouse por encima */
+.button-back:hover {
+  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content-title">
     <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325" />
     <h3>
       <span class="title">VALHALLA</span>
@@ -12,7 +12,7 @@
 </template>
 
 <style scoped>
-.content {
+.content-title {
   display: flex;
   flex-direction: column;
   align-items: center;

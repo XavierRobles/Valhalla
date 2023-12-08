@@ -21,10 +21,12 @@
         </tbody>
       </table>
     </div>
-    <div class="content">
-      <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325"/>
+    <div class="content-title">
+      <img alt="Valhalla logo" class="logo" src="@/assets/logo.png" width="325" height="325"/>
       <h3><span class="title">VALHALLA</span></h3>
-      <router-link v-if="userRole === 'JARL'" to="/SystemManager" class="system-manager">System Manager</router-link>
+      <div class="download-button-container">
+        <button v-if="userRole === 'JARL'" @click="goToSystemManager" class="download-button">System Manager</button>
+      </div>
       <table class="event_table_user">
         <thead>
         <tr>
@@ -67,6 +69,9 @@
       </table>
     </div>
   </div>
+  <div class="download-button-container">
+    <button @click="downloadExcel" class="download-button">Download Excel</button>
+  </div>
 </template>
 
 <script setup>
@@ -75,6 +80,7 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {get as rtdbGet, getDatabase, ref as rtdbRef} from 'firebase/database';
 import {firebaseApp} from '@/main';
 import {useRouter} from 'vue-router';
+import * as XLSX from 'xlsx';
 
 const loading = ref(true);
 const auth = getAuth(firebaseApp);
@@ -198,6 +204,49 @@ const sortedUsers = computed(() => {
   });
   return sorted;
 });
+const selectedFields = [
+  'name',
+  'dkp',
+  'dynamis_dkp',
+  'main_job',
+  'sub_job',
+  'sub_job_2',
+  'craft',
+  'craft_level',
+  'sky',
+  'sea',
+  'dynamis',
+  'event',
+  'overall'
+];
+
+const downloadExcel = () => {
+  const filteredUsers = users.value.map(user => {
+    const filteredUser = {};
+    selectedFields.forEach(field => {
+      if (user.hasOwnProperty(field)) {
+        filteredUser[field] = user[field];
+      }
+    });
+    return filteredUser;
+  });
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(filteredUsers);
+
+  XLSX.utils.book_append_sheet(wb, ws, 'ls_members');
+
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+  const blob = new Blob([wbout], { type: 'application/octet-stream' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'ls_members.xlsx';
+  link.click();
+};
+const goToSystemManager= () => {
+  router.push({name: 'SystemManager'});
+}
 onMounted(async () => {
   await loadUser();
   await loadUsers();
@@ -213,7 +262,7 @@ onMounted(async () => {
 //height: 100vh; /* Ajusta la altura como desees */
 //width: 200vh;
 }
-.content {
+.content-title {
   text-align: center;
   width: 70%; /* Ajusta el ancho según tus necesidades */
   margin: 0 auto; /* Centra horizontalmente el contenido */
@@ -391,5 +440,36 @@ h2 {
 tr:hover {
   background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
 }
+
+.download-button-container {
+  position: relative;
+  margin-top: 20px; /* Ajusta el margen superior según tu contenido */
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+}
+
+.download-button {
+  margin-bottom: 10px;
+  padding: 7px 15px;
+  background-color: #687377;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s; /* Transiciones suaves para color de fondo y texto */
+}
+
+.download-button:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-1px); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Estilo cuando se pasa el mouse por encima */
+.download-button:hover {
+  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
+}
+
 </style>
-<!-- userTotalEvents.value / totalLSEvents.value) * 100 -->

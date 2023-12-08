@@ -21,9 +21,10 @@
           {{ user.name }}
         </li>
       </ul>
+      <div><button class="button" @click="markAll">Mark All</button></div>
+      <br>
     </div>
   </div>
-
   <div class="right-half">
     <div class="accordion-title" @click="settingToggleAccordion">
       <span class="button">Set points</span>
@@ -166,11 +167,12 @@
       </div>
     </div>
   </div>
-
-
   <div class="top-section">
+    <label class="userCounter" v-if="selectedUsers.length > 0">Total members selected: {{ selectedUsers.length }}</label>
+    &nbsp;&nbsp;&nbsp;
+    <button class="button" v-if="selectedUsers.length > 0" @click="clearSelection">Uncheck Users</button> <br><br>
     <!--Select event -->
-    <label class="user-name" for="eventType">Select Event Type:</label>
+    <label class="user-name apply" for="eventType">Select Event Type:</label>
     <div class="value-item">
       <select id="eventType" v-model="selectEventType" class="select-input" @change="updateSelectedUsersDKP">
         <option value="" disabled selected>Select Event</option>
@@ -184,7 +186,7 @@
       </select>
     </div>
     <!--Select Cost -->
-    <label class="user-name" for="costItems">Select Item lot:</label>
+    <label class="user-name apply" for="costItems">Select Item lot:</label>
     <div class="value-item">
       <select id="eventType" v-model="selectCostItem" class="select-input" @change="updateSelectedUsersDKP">
         <option value="" disabled selected>Select Item</option>
@@ -199,12 +201,12 @@
       </select>
     </div>
     <div class="apply-button">
-      <button class="system-manager" @click="applyChanges">Aplicar</button>
-      <button class="system-manager" @click="resetSelectValues">Clear</button>
+      <button class="button apply" @click="applyChanges">Apply</button>
+      <button class="button apply" @click="resetSelectValues">Clear</button>
     </div>
   </div>
 
-  <div class="content">
+  <div class="content-title">
     <!-- Tabla de Usuarios -->
     <div>
       <h4>Users</h4>
@@ -397,6 +399,9 @@
       </table>
     </div>
   </div>
+  <div>
+    <div>  <button class="button-back" @click="goBack()">Back</button></div>
+  </div>
 </template>
 
 <script setup>
@@ -450,6 +455,18 @@ const dreamlandSpecialCostValue = ref(0);
 const limbusBossCostValue = ref(0);
 const seaJailersCostValue = ref(0);
 
+const markAll = () => {
+  const allSelected = selectedUsers.value.length === sortedUsers.value.length;
+
+  if (allSelected) {
+    selectedUsers.value = [];
+  } else {
+    selectedUsers.value = sortedUsers.value.map(user => user.id);
+  }
+};
+const clearSelection = () => {
+  selectedUsers.value = [];
+};
 
 const selectedUsersDKP = ref([]);
 
@@ -816,7 +833,12 @@ const updateEvents = () => {
     rtdbSet(userRef, user);
   });
 };
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const goBack = () => {
+  router.go(-1); // Retrocede un paso en el historial del router (-1)
+};
 
 watch(total_ls_events, () => {
   updateOverall();
@@ -934,15 +956,21 @@ onMounted(() => {
 }
 
 .button {
-//display: inline-block; padding: 0px 5px; /* Ajusta el espaciado interno según sea necesario */ background-color: #deecec; /* Color de fondo del botón */ color: #000000; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 4px; /* Bordes redondeados */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
-  text-align: center; /* Centra el texto horizontalmente */
-  text-decoration: none; /* Quita la subraya predeterminada para que parezca un botón */
+  cursor: pointer;
+  align-items: center;
+  color: #000000; /* Cambia el color del texto al blanco */
   font-weight: bold;
-  font-size: 12px;
-  background-color: #95a4ab;
+  background: linear-gradient(to bottom, #99a0a0, #8c9696); /* Fondo degradado */
+  border: 1px solid #b9c0c0; /* Borde con color similar al fondo */
+  border-bottom: 1px solid #8c9696; /* Borde inferior más oscuro para dar relieve */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+  transition: background 0.2s, transform 0.2s; /* Transiciones suaves */
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
 }
 
 /* Estilo cuando se pasa el mouse por encima */
@@ -950,14 +978,9 @@ onMounted(() => {
   background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
 }
 
-input:checked {
-  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se selecciona */
-  color: #95a4ab; /* Cambia el color del texto cuando se selecciona */
-}
-
 
 /* Cambia el color de fondo y el texto al pasar el ratón sobre el botón */
-.content {
+.content-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1060,6 +1083,42 @@ td {
 
 .highlighted-row:hover {
   background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
+}
+.userCounter {
+  font-size: 16px;
+  color: #079009;
+  font-weight: bold;
+}
+.apply {
+  margin: 15px;
+  font-size: 15px;
+}
+.button-back {
+  /* Propiedades para centrar horizontalmente */
+  margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
+  display: block; /* Convertir el botón en un bloque para aplicar márgenes y centrado */
+
+  /* Estilos restantes del botón (los que ya están presentes) */
+  cursor: pointer;
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: linear-gradient(to bottom, #99a0a0, #8c9696);
+  border: 1px solid #b9c0c0;
+  border-bottom: 1px solid #8c9696;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s, transform 0.2s;
+}
+.button-back:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Estilo cuando se pasa el mouse por encima */
+.button-back:hover {
+  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
 }
 </style>
 

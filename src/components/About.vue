@@ -2,21 +2,18 @@
   <div class="greetings">
     <img src="@/assets/valhalla.png" alt="Fondo de Valhalla" />
     <br />
-    <router-link class="back" to="/home">Back</router-link>
+    <button class="button-back" @click="goBack()">Back</button>
 
     <div class="section">
       <h2 class="section-title">Leadership</h2>
       <p class="info">
-        <span class="label">Leaders:</span> <span class="value">Evileye</span>
+        <span class="label">Leader:</span> <span class="value">Waky</span>
       </p>
       <p class="info">
-        <span class="label">Co-leaders:</span> <span class="value">Waky, Honzo, Shirro, Sleepygirl, Chevalfou</span>
+        <span class="label">Officers:</span> <span class="value">Shirro, Sleepygirl, Duraan</span>
       </p>
       <p class="info">
-        <span class="label">Officers:</span> <span class="value">Capoutefrancais, Duraan, Odinpr</span>
-      </p>
-      <p class="info">
-        <span class="label">Community Support:</span> <span class="value">Isthar</span>
+        <span class="label">Public Relations:</span> <span class="value">Pauwilla</span>
       </p>
     </div>
 
@@ -31,19 +28,44 @@
     </div>
   </div>
 </template>
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goBack = () => {
+  router.go(-1); // Retrocede un paso en el historial del router (-1)
+};
+</script>
 
 <style scoped>
-.back {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #95a4ab;
-  color: #000000;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 10px;
-  transition: background-color 0.3s, color 0.3s;
-  font-weight: bold;
-}
+.button-back {
+    /* Propiedades para centrar horizontalmente */
+    margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
+    display: block; /* Convertir el botón en un bloque para aplicar márgenes y centrado */
+
+    /* Estilos restantes del botón (los que ya están presentes) */
+    cursor: pointer;
+    align-items: center;
+    color: #000000;
+    font-weight: bold;
+    padding: 7px 15px;
+    background: linear-gradient(to bottom, #99a0a0, #8c9696);
+    border: 1px solid #b9c0c0;
+    border-bottom: 1px solid #8c9696;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .button-back:hover {
+    background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+  }
+
+  /* Estilo cuando se pasa el mouse por encima */
+  .button-back:hover {
+    background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
+  }
 
 .back:hover {
   background-color: #687377;

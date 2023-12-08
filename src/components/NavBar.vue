@@ -20,6 +20,16 @@
         </router-link>
       </li>
       <li>
+        <router-link to="/members">
+          <div class="nav-item-container">
+            <div class="nav-item">
+              <img v-if="!isExpanded" src="@/components/icons/vikingo.png" height="50" width="52" alt="" />
+              <span class="nav-text">Members</span>
+            </div>
+          </div>
+        </router-link>
+      </li>
+      <li>
         <router-link to="/Event">
           <div class="nav-item-container">
             <div class="nav-item">
@@ -79,12 +89,11 @@
           </div>
         </router-link>
         <!-- Nuevo div para el texto de la versión -->
-        <div class="version-text">V. 1.0.2</div>
-        <a href="https://discord.gg/2KEZqSzH" target="_blank" class="discord-icon">
+        <div class="version-text">V. 1.0.6</div>
+        <a href="https://discord.gg/cGQe6vkw4u" target="_blank" class="discord-icon">
           <img v-if="!isExpanded" src="@/components/icons/discord.png" alt="Discord Icon" height="28" width="35" />
           <img v-else src="@/components/icons/discord.svg" alt="Discord Icon" class="discord-img" />
         </a>
-
       </li>
     </ul>
   </div>
@@ -169,7 +178,7 @@ const collapseNavbar = () => {
 
 /* Aumenta el padding de los elementos a cuando el navbar está expandido */
 .navbar.expanded a {
-  padding: 27px; /* Ajusta el padding deseado cuando está expandido */
+  padding: 16px; /* Ajusta el padding deseado cuando está expandido */
 }
 
 .navbar .nav-link {
@@ -231,8 +240,8 @@ const collapseNavbar = () => {
   margin-right: 5px;
 }
 .discord-img {
-  width:90px;
-  height: 90px;
+  width:80px;
+  height: 50px;
 }
 </style>
 

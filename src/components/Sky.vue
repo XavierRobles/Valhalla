@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content-title">
     <div class="centered-content">
       <h3><span class="title">SKY</span></h3>
     </div>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <!--  ######################################################User list Checkbox#####################################-->
-  <div class="content" v-if="userRole === 'JARL' || userRole === 'EARL'">
+  <div class="content-title" v-if="userRole === 'JARL' || userRole === 'EARL'">
     <div class="left-half">
       <div class="accordion-title" @click="userToggleAccordion">
         <span class="button">User List</span>
@@ -42,12 +42,16 @@
         </ul>
       </div>
     </div>
+    <label class="userCounter" v-if="selectedUsers.length > 0">Total members selected: {{ selectedUsers.length }}</label>
+    <br>
+    <button class="button" v-if="selectedUsers.length > 0" @click="clearSelection">Clear</button>
+    <br>
   </div>
   <!--  ######################################################Gem######################################################-->
   <div class="gods">
     <div class="container-stone-gems">
       <div class="user-image">
-        <img src="@/components/sky/Winterstone.webp" alt="img-Winterstone" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Winterstone"><img src="@/components/sky/Winterstone.webp" alt="img-Winterstone" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('Winterstone')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -57,7 +61,7 @@
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Winterstone')" class="button">
           +
         </button>&nbsp;&nbsp;&nbsp;
-        <img src="@/components/sky/Gem_of_the_North.webp" alt="img-Gem-of-the-North" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Gem_of_the_North"><img src="@/components/sky/Gem_of_the_North.webp" alt="img-Gem-of-the-North" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheNorth')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -70,7 +74,7 @@
       </div>
       <!-- Springstone y GemOfTheEast -->
       <div class="user-image">
-        <img src="@/components/sky/Springstone.webp" alt="img-Springstone" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Springstone"><img src="@/components/sky/Springstone.webp" alt="img-Springstone" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('Springstone')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -80,7 +84,7 @@
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Springstone')" class="button">
           +
         </button>&nbsp;&nbsp;&nbsp;
-        <img src="@/components/sky/GemOfTheEast.webp" alt="img-GemOfTheEast" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Gem_of_the_East"><img src="@/components/sky/GemOfTheEast.webp" alt="img-GemOfTheEast" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheEast')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -94,7 +98,7 @@
 
       <!-- Summerstone y GemOfTheSouth -->
       <div class="user-image">
-        <img src="@/components/sky/Summerstone.webp" alt="img-Summerstone" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Summerstone"><img src="@/components/sky/Summerstone.webp" alt="img-Summerstone" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('Summerstone')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -104,7 +108,7 @@
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Summerstone')" class="button">
           +
         </button>&nbsp;&nbsp;&nbsp;
-        <img src="@/components/sky/GemOfTheSouth.webp" alt="img-GemOfTheSouth" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Gem_of_the_South"><img src="@/components/sky/GemOfTheSouth.webp" alt="img-GemOfTheSouth" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheSouth')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -118,7 +122,7 @@
 
       <!-- Autumnstone y GemOfTheWest -->
       <div class="user-image">
-        <img src="@/components/sky/Autumnstone.webp" alt="img-Autumnstone" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Autumnstone"><img src="@/components/sky/Autumnstone.webp" alt="img-Autumnstone" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('Autumnstone')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -128,7 +132,7 @@
         <button v-if="userRole === 'JARL' || userRole === 'EARL'" @click="incrementValue('Autumnstone')" class="button">
           +
         </button>&nbsp;&nbsp;&nbsp;
-        <img src="@/components/sky/GemOfTheWest.webp" alt="img-GemOfTheWest" class="img-sea"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Gem_of_the_West"><img src="@/components/sky/GemOfTheWest.webp" alt="img-GemOfTheWest" class="img-sea"/></a>
         <label class="label-total">&nbsp;&nbsp;&nbsp;{{
             calculateTotalForSkyItem('GemOfTheWest')
           }}&nbsp;&nbsp;&nbsp;</label>
@@ -145,7 +149,7 @@
       <div class="vertical-container">
         <!-- SealOfGenbu -->
         <div class="user-image">
-          <img src="@/components/sky/SealOfGenbu.webp" alt="img-SealOfGenbu" class="img-sea"/>
+          <a href="https://ffxiclopedia.fandom.com/wiki/Seal_of_Genbu"><img src="@/components/sky/SealOfGenbu.webp" alt="img-SealOfGenbu" class="img-sea"/></a>
           <label class="label-total">&nbsp;&nbsp;&nbsp;{{
               calculateTotalForSkyItem('SealOfGenbu')
             }}&nbsp;&nbsp;&nbsp;</label>
@@ -159,7 +163,7 @@
 
         <!-- SealOfSeiryu -->
         <div class="user-image">
-          <img src="@/components/sky/SealOfSeiryu.png" alt="img-SealOfSeiryu" class="img-sea"/>
+          <a href="https://ffxiclopedia.fandom.com/wiki/Seal_of_Seiryu"><img src="@/components/sky/SealOfSeiryu.png" alt="img-SealOfSeiryu" class="img-sea"/></a>
           <label class="label-total">&nbsp;&nbsp;&nbsp;{{
               calculateTotalForSkyItem('SealOfSeiryu')
             }}&nbsp;&nbsp;&nbsp;</label>
@@ -173,7 +177,7 @@
 
         <!-- SealOfSuzaku -->
         <div class="user-image">
-          <img src="@/components/sky/SealOfSuzaku.webp" alt="img-SealOfSuzaku" class="img-sea"/>
+          <a href="https://ffxiclopedia.fandom.com/wiki/Seal_of_Suzaku"><img src="@/components/sky/SealOfSuzaku.webp" alt="img-SealOfSuzaku" class="img-sea"/></a>
           <label class="label-total">&nbsp;&nbsp;&nbsp;{{
               calculateTotalForSkyItem('SealOfSuzaku')
             }}&nbsp;&nbsp;&nbsp;</label>
@@ -187,7 +191,7 @@
 
         <!-- SealOfByakko -->
         <div class="user-image">
-          <img src="@/components/sky/SealOfByakko.webp" alt="img-SealOfByakko" class="img-sea"/>
+          <a href="https://ffxiclopedia.fandom.com/wiki/Seal_of_Byakko"><img src="@/components/sky/SealOfByakko.webp" alt="img-SealOfByakko" class="img-sea"/></a>
           <label class="label-total">&nbsp;&nbsp;&nbsp;{{
               calculateTotalForSkyItem('SealOfByakko')
             }}&nbsp;&nbsp;&nbsp;</label>
@@ -206,7 +210,7 @@
     <div class="container-gods-set">
       <!-- Genbu -->
       <div class="stuff-image">
-        <img src="@/components/sky/genbu.png" alt="img-genbu" class="img-godSet"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Genbu"><img src="@/components/sky/genbu.png" alt="img-genbu" class="img-godSet"/></a>
         <label class="label-total">
           Genbu:
           <span>{{ calculateGenbuValue() }}</span>
@@ -215,7 +219,7 @@
 
       <!-- Seiryu -->
       <div class="stuff-image">
-        <img src="@/components/sky/seiryu.png" alt="img-seiryu" class="img-godSet"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Seiryu"><img src="@/components/sky/seiryu.png" alt="img-seiryu" class="img-godSet"/></a>
         <label class="label-total">
           Seiryu:
           <span>{{ calculateSeiryuValue() }}</span>
@@ -224,7 +228,7 @@
 
       <!-- Suzaku -->
       <div class="stuff-image">
-        <img src="@/components/sky/suzaku.png" alt="img-suzaku" class="img-godSet-stone"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Suzaku"><img src="@/components/sky/suzaku.png" alt="img-suzaku" class="img-godSet-stone"/></a>
         <label class="label-total">
           Suzaku:
           <span>{{ calculateSuzakuValue() }}</span>
@@ -233,7 +237,7 @@
 
       <!-- Byakko -->
       <div class="stuff-image">
-        <img src="@/components/sky/byakko.webp" alt="img-byakko" class="img-godSet"/>
+        <a href="https://ffxiclopedia.fandom.com/wiki/Byakko"><img src="@/components/sky/byakko.webp" alt="img-byakko" class="img-godSet"/></a>
         <label class="label-total">
           Byakko:
           <span>{{ calculateByakkoValue() }}</span>
@@ -244,14 +248,15 @@
   <!--  ######################################################Sirin#################################################-->
   <!-- Kirin -->
   <div class="kirin">
-    <img src="@/components/sky/kirin.webp" alt="img-kirin" class="img-godSet"/>
+    <a href="https://ffxiclopedia.fandom.com/wiki/Kirin"><img src="@/components/sky/kirin.webp" alt="img-kirin" class="img-godSet"/></a>
     <label class="label-total">
       Kirin:
       <span>{{ calculateKirinValue() }}</span>
     </label>
   </div>
-
-
+  <div>
+    <div>  <button class="button-back" @click="goBack()">Back</button></div>
+  </div>
 </template>
 
 <script setup>
@@ -269,7 +274,9 @@ const isOpenUserList = ref(false);
 const isOpenUserListInventory = ref(false);
 const selectedUsers = ref([]);
 const selectedUsersDKP = ref([]);
-
+const clearSelection = () => {
+  selectedUsers.value = [];
+};
 const inventory = {
   sky: {
     Winterstone: 0,
@@ -507,13 +514,19 @@ const loadUser = async () => {
     console.error('Error loading user:', error);
   }
 };
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const goBack = () => {
+  router.go(-1); // Retrocede un paso en el historial del router (-1)
+};
 onMounted(async () => {
   await loadUser();
   await loadUsers();
 });
 </script>
 <style scoped>
-.content {
+.content-title {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -671,5 +684,37 @@ input:checked {
   font-weight: bold; /* Texto en negrita */
   color: gold; /* Color del texto (puedes cambiarlo según tus preferencias) */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto (opcional) */
+}
+.userCounter {
+  font-size: 16px;
+  color: #079009;
+  font-weight: bold;
+}
+.button-back {
+  /* Propiedades para centrar horizontalmente */
+  margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
+  display: block; /* Convertir el botón en un bloque para aplicar márgenes y centrado */
+
+  /* Estilos restantes del botón (los que ya están presentes) */
+  cursor: pointer;
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: linear-gradient(to bottom, #99a0a0, #8c9696);
+  border: 1px solid #b9c0c0;
+  border-bottom: 1px solid #8c9696;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s, transform 0.2s;
+}
+.button-back:hover {
+  background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Estilo cuando se pasa el mouse por encima */
+.button-back:hover {
+  background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
 }
 </style>

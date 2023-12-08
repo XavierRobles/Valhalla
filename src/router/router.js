@@ -11,11 +11,13 @@ import TabSea from "@/components/TabSea.vue";
 import Dynamis from "@/components/Dynamis.vue";
 import Rules from "@/components/Rules.vue";
 import About from '@/components/About.vue';
+import Members from "@/components/Members.vue";
 
 
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getDatabase, ref as rtdbRef, get as rtdbGet} from 'firebase/database';
 import {firebaseApp} from "@/main";
+
 
 
 
@@ -44,6 +46,12 @@ const routes = [
         path: '/home',
         component: Home,
         name: 'Home',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },
+    {
+        path: '/members',
+        component: Members,
+        name: 'Members',
         meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
     },
     {
