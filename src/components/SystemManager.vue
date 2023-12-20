@@ -1,7 +1,7 @@
 <template>
   <div class="top-section">
     <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="100" height="100"/>
-    <h3><span class="title">VALHALLA</span></h3>
+    <h3><span class="title">VALHALLA II</span></h3>
     <div class="value-item">
       <label for="totalLsEvents">Total Ls Events:</label>
       <input type="number" id="totalLsEvents" v-model="total_ls_events" class="setting-input-total_ls"

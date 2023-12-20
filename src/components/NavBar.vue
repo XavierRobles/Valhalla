@@ -89,7 +89,7 @@
           </div>
         </router-link>
         <!-- Nuevo div para el texto de la versión -->
-        <div class="version-text">V. 1.0.6</div>
+        <div class="version-text">V. 1.0.7</div>
         <a href="https://discord.gg/cGQe6vkw4u" target="_blank" class="discord-icon">
           <img v-if="!isExpanded" src="@/components/icons/discord.png" alt="Discord Icon" height="28" width="35" />
           <img v-else src="@/components/icons/discord.svg" alt="Discord Icon" class="discord-img" />

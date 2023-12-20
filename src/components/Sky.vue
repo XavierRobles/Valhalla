@@ -6,7 +6,7 @@
   </div>
 
   <!--  ######################################################Inventory#############################################-->
-  <div v-if="userRole === 'JARL' || userRole === 'EARL'">
+  <div>
     <div class="left-half">
       <div class="accordion-title" @click="userToggleAccordionInventory">
         <span class="button">User Inventory</span>

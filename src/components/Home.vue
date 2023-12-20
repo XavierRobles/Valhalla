@@ -23,7 +23,7 @@
     </div>
     <div class="content-title">
       <img alt="Valhalla logo" class="logo" src="@/assets/logo.png" width="325" height="325"/>
-      <h3><span class="title">VALHALLA</span></h3>
+      <h3><span class="title">VALHALLA II</span></h3>
       <div class="download-button-container">
         <button v-if="userRole === 'JARL'" @click="goToSystemManager" class="download-button">System Manager</button>
       </div>

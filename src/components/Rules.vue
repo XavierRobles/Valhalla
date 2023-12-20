@@ -2,7 +2,7 @@
   <div class="content-title">
     <div class="centered-content">
       <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325" />
-      <h3><span class="title">VALHALLA</span></h3>
+      <h3><span class="title">VALHALLA II</span></h3>
 
       <div v-if="editing" class="edit-mode">
         <div class="text-area-container">

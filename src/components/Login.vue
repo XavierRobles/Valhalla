@@ -5,7 +5,7 @@
       <div class="content-title">
         <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="300" height="300"/>
         <div v-if="!showFields" class="collapsed">
-          <h3><span class="title">VALHALLA</span></h3>
+          <h3><span class="title">VALHALLA II</span></h3>
           <br>
           <br>
           <button @click="loginWithGoogle" v-if="!showFields" class="google-login-button">

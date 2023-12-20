@@ -13,7 +13,7 @@
         <span class="label">Officers:</span> <span class="value">Shirro, Sleepygirl, Duraan</span>
       </p>
       <p class="info">
-        <span class="label">Public Relations:</span> <span class="value">Pauwilla</span>
+        <span class="label">Public Relations:</span> <span class="value">Pauwilla, Khonsuu</span>
       </p>
     </div>
 
