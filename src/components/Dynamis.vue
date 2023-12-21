@@ -9,23 +9,24 @@
     <div v-if="loading">
       Loading...
     </div>
-    <div class="content-title" v-if="userRole === 'JARL' || userRole === 'EARL'">
-      <button class="button" @click="toggleEditing">{{ isEditing ? 'Close' : 'Add Dynamis' }}</button>
+    <div class="content-button-edit" v-if="userRole === 'JARL'">
+      <button class="button" @click="toggleEditing">{{ isEditing ? 'Close add dynamis' : 'Add Dynamis' }}</button>
+      &nbsp;&nbsp;
+      <button class="button" @click="toggleEditingNext">{{ isEditingNext ? 'Close next event' : 'Add Event' }}</button>
     </div>
     <br>
-    <div class="content-title" v-if="isEditing && 'JARL' || userRole === 'EARL'">
+    <div class="content-title" v-if="isEditing && 'JARL'">
       <h1>Dynamis Distribution</h1>
       <br>
       <label for="main-job" class="field-label">Total Amount to Distribute</label>
       <span v-if="isEditing"><input type="number" v-model="totalGil" min="1" @input="calculateDistribution"/></span>
       <span v-else class="editable-value">{{ dynamis.value.gil }}</span>
-      {{formatGil(totalGil) }}
+      {{ formatGil(totalGil) }}
       <div>
         <br>
-        <label for="sub-job" class="field-label">Date:</label>
         <label for="dynamis-date" class="field-label">Select Date:</label>
         <span v-if="isEditing">
-  <input type="date" id="dynamis-date" v-model="dynamis.date" @input="validateDate"></span>
+        <input type="date" id="dynamis-date" v-model="dynamis.date" @input="validateDate"></span>
         <span v-else class="editable-value">{{ dynamis.date || getCurrentDate }}</span>
         <br>
         <br>
@@ -81,6 +82,66 @@
         </p>
       </div>
     </div>
+
+    <div>
+      <div class="content-title" v-if="isEditingNext && (userRole === 'JARL')">
+        <h1>Next Dynamis event</h1>
+        <br>
+        <div v-for="(nextEvent, eventIndex) in dynamisEvents" :key="eventIndex">
+          <label for="dynamis-date" class="field-label">Select Date: </label>
+          <span v-if="isEditingNext">
+          <input type="date" v-model="nextEvent.date">
+        </span>
+          <span v-else class="editable-value">{{ nextEvent.date }}</span>&nbsp;&nbsp;
+          <label for="dynamis-select" class="field-label">Dynamis: </label>
+          <span v-if="isEditingNext">
+          <select v-model="nextEvent.dynamis" class="login-input" id="dynamis-select">
+                <option value="Dynamis - San d'Oria">Dynamis - San d'Oria</option>
+                <option value="Dynamis - Windurst">Dynamis - Windurst</option>
+                <option value="Dynamis - Bastok">Dynamis - Bastok</option>
+                <option value="Dynamis - Jeuno">Dynamis - Jeuno</option>
+                <option value="Dynamis - Beaucedine">Dynamis - Beaucedine</option>
+                <option value="Dynamis - Xarcabard">Dynamis - Xarcabard</option>
+                <option value="Dynamis - Valkurm">Dynamis - Valkurm</option>
+                <option value="Dynamis - Buburimu">Dynamis - Buburimu</option>
+                <option value="Dynamis - Qufim">Dynamis - Qufim</option>
+                <option value="Dynamis - Tavnazia">Dynamis - Tavnazia</option>
+          </select>
+        </span>
+          <span v-else class="editable-value">{{ nextEvent.dynamis }}</span>
+        </div>
+        <br>
+        <div class="content-button-edit">
+          <button class="button" @click="clearFieldsNextDynamis"> Clear Fields</button> &nbsp;&nbsp;
+          <button class="button" @click="saveNextEvent"> Save Next Dynamis Event</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="next-dynamis-title">
+      <h2>Next Dynamis</h2>
+    </div>
+    <div class="event-container" v-if="!checkNoDateAvailable()">
+      <!-- Mostrar títulos de next_dynamis -->
+      <div class="event-row">
+        <div
+            v-for="(nextEvent, eventIndex) in dynamisEvents"
+            :key="eventIndex"
+            class="event-item"
+        >
+          <div class="event-details" v-if="nextEvent.dynamis !== 'No dynamis available'">
+            <!-- Verificar si dynamis y date están definidos y no son cadenas vacías -->
+            <h2 class="event-title">{{ nextEvent.dynamis }}</h2>
+            <h3 v-if="nextEvent.date !== 'No date available'">{{ nextEvent.date }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p class="event-details">Coming soon....</p>
+    </div>
+    <br>
+<!--    ##############################################Tablas###########################################################-->
     <div class="centered-row">
       <table class="data-table">
         <thead>
@@ -109,7 +170,9 @@
         >
           <td>{{ dynamisData.dynamisName }}</td>
           <td>{{ dynamisData.date }}</td>
-          <td>{{ dynamisData.totalGil === 0 ? 'processing' : formatGil(dynamisData.totalGil) }}</td>
+          <td :style="{ cursor: dynamisData.totalGil === 0 ? 'wait' : 'default' }">
+            {{ dynamisData.totalGil === 0 ? 'Processing' : formatGil(dynamisData.totalGil) }}
+          </td>
           <td>{{ dynamisData.totalUsers }}</td>
           <td v-if="userRole === 'JARL'">
             <button @click="deleteDynamis(index)">Delete</button>
@@ -119,10 +182,12 @@
           <td colspan="4">
             <br>
             <div class="centered-row" @click="toggleDetails(expandedIndex)">
-              <img src="@/components/dynamis/Dynamis_Statues.png" alt="Statue Image" class="statue-image"  width="70" height="60">
+              <img src="@/components/dynamis/Dynamis_Statues.png" alt="Statue Image" class="statue-image" width="70"
+                   height="60">
             </div>
             <h2 class="title-dynamis" @click="toggleDetails(expandedIndex)">
-              <span style="color: green; font-size: 28px">❪</span>{{ expandedDynamisName }}<span style="color: red; font-size: 28px;">❫</span>
+              <span style="color: green; font-size: 28px">❪</span>{{ expandedDynamisName }}<span
+                style="color: red; font-size: 28px;">❫</span>
             </h2>
             <table class="data-table">
               <thead>
@@ -163,7 +228,9 @@
       </table>
     </div>
     <div>
-      <div>  <button class="button-back" @click="goBack()">Back</button></div>
+      <div>
+        <button class="button-back" @click="goBack()">Back</button>
+      </div>
     </div>
   </div>
 </template>
@@ -171,7 +238,7 @@
 <script setup>
 import {computed, onMounted, ref, watch} from 'vue';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet, remove } from 'firebase/database';
+import {get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet, remove} from 'firebase/database';
 import {firebaseApp} from '@/main';
 
 const auth = getAuth(firebaseApp);
@@ -180,23 +247,41 @@ const loading = ref(true);
 
 const users = ref([]);
 const isEditing = ref(false);
+const isEditingNext = ref(false);
 const expandedIndex = ref(null);
 const expandedDynamisName = ref('');
 
 const dynamis = ref({
   name: '',
-  gil: 0, //en k
+  gil: 0,
   date: '',
 });
+
+const checkNoDateAvailable = () => {
+    return dynamisEvents.value.every(event => event.date === 'No date available');
+};
 
 const allUsersSelected = ref(false);
 function selectAllUsers() {
   if (allUsersSelected.value) {
-    selectedUsersIDs.value = sortedUsers.value.map((user, index) => ({ index, user }));
+    selectedUsersIDs.value = sortedUsers.value.map((user, index) => ({index, user}));
   } else {
     selectedUsersIDs.value = [];
   }
 }
+
+const dynamisEvents = ref([
+]);
+const clearFieldsNextDynamis = () => {
+  // Reiniciar los valores de los campos
+  dynamisEvents.value.forEach(event => {
+    event.date = ''; // Puedes asignar un valor predeterminado si es necesario
+    event.dynamis = ''; // Puedes asignar un valor predeterminado si es necesario
+  });
+  deleteNextDynamis()
+};
+
+
 const toggleCheckbox = (userId) => {
   const checkbox = document.getElementById('user' + userId);
   checkbox.checked = !checkbox.checked;
@@ -215,6 +300,12 @@ const toggleEditing = () => {
     // saveUserData(user.value);
   }
   isEditing.value = !isEditing.value;
+};
+const toggleEditingNext = () => {
+  if (isEditingNext.value) {
+    // saveUserData(user.value);
+  }
+  isEditingNext.value = !isEditingNext.value;
 };
 
 const clearSelection = () => {
@@ -379,6 +470,113 @@ const deleteDynamis = async (index) => {
     console.error('Error deleting Dynamis:', error);
   }
 };
+const deleteNextDynamis = async () => {
+  try {
+
+    const dynamisRef = rtdbRef(db, `next_dynamis/`);
+
+    // Realiza la eliminación de datos en la base de datos
+    await remove(dynamisRef);
+
+    // Borra la selección localmente en tu aplicación
+    selectedUsersIDs.value = [];
+    usersHalfIDs.value = [];
+    await saveNextEventEmpty()
+  } catch (error) {
+    console.error('Error al borrar datos:', error);
+  }
+};
+const saveNextEvent = async () => {
+  try {
+    const nextEventRefs = [];
+    dynamisEvents.value.forEach((event, index) => {
+      if (event !== undefined && event !== []) {
+        const dynamisRef = rtdbRef(db, `next_dynamis/${event.dynamis}-${event.date}`);
+        nextEventRefs.push(rtdbSet(dynamisRef, event));
+      }
+    });
+
+    // await Promise.all(nextEventRefs);
+    console.log('Next Dynamis events saved successfully!');
+  } catch (error) {
+    console.error('Error saving Next Dynamis events:', error);
+  }
+};
+const saveNextEventEmpty = async () => {
+  try {
+    const nextEventRefs = [];
+        const dynamisRef = rtdbRef(db, `next_dynamis/`);
+        nextEventRefs.push(rtdbSet(dynamisRef, ""));
+
+
+    // await Promise.all(nextEventRefs);
+    console.log('Next Dynamis events saved successfully!');
+  } catch (error) {
+    console.error('Error saving Next Dynamis events:', error);
+  }
+};
+const loadNextDynamisData = async () => {
+  try {
+    const nextDynamisRef = rtdbRef(db, 'next_dynamis');
+    const snapshot = await rtdbGet(nextDynamisRef);
+
+    if (snapshot.exists()) {
+      const nextDynamisData = snapshot.val();
+      console.log('nextDynamisData:', nextDynamisData);
+
+      const currentDate = new Date();
+
+      const updatedDynamisEvents = [];
+
+      for (const key in nextDynamisData) {
+        if (key !== '-') {
+          const eventData = {
+            date: nextDynamisData[key].date || 'No date available',
+            dynamis: nextDynamisData[key].dynamis || 'No dynamis available',
+          };
+
+          const eventDate = new Date(eventData.date);
+
+          console.log(currentDate.getDate() + "-" + currentDate.getUTCMonth() + 1 + "-" + currentDate.getFullYear()  +"  -----  "+ eventDate.getDate() + "-" + eventDate.getUTCMonth() + 1+ "-" + eventDate.getFullYear())
+
+
+          if (
+              new Date(
+                  currentDate.getFullYear(),
+                  currentDate.getMonth(),
+                  currentDate.getDate()
+              ) <=
+              new Date(
+                  eventDate.getFullYear(),
+                  eventDate.getMonth(),
+                  eventDate.getDate()
+              )
+          ){
+            updatedDynamisEvents.push(eventData);
+          } else {
+            const eventRef = rtdbRef(db, `next_dynamis/${key}`);
+            await remove(eventRef); // Elimina eventos posteriores a la fecha actual
+          }
+        }
+      }
+
+      // Asegura que siempre haya al menos 4 eventos
+      while (updatedDynamisEvents.length < 4) {
+        updatedDynamisEvents.push({ date: 'No date available', dynamis: 'No dynamis available' });
+      }
+
+      dynamisEvents.value = updatedDynamisEvents.slice(0, 4); // Actualiza dynamisEvents
+      dynamisEvents.value.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+
+        return dateA - dateB;
+      });
+    }
+  } catch (error) {
+    console.error('Error loading Next Dynamis data:', error);
+  }
+};
 
 
 const validateDate = () => {
@@ -469,6 +667,7 @@ const saveDynamisData = async () => {
 watch([totalGil, sortedUsers, selectedUsersIDs, usersHalfIDs], () => {
   createUserList();
   calculateDistribution();
+
 });
 const loadUsers = async () => {
   const userRef = rtdbRef(db, 'user/');
@@ -551,11 +750,12 @@ onMounted(async () => {
   await loadUser();
   await loadUsers();
   await loadDynamisData();
+  await loadNextDynamisData();
 });
 </script>
 <style scoped>
 .container {
-  margin: 0 200px 200px;
+  margin: 0 150px 150px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -565,6 +765,12 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+
+}
+
+.content-button-edit {
+  display: flex;
   justify-content: center;
 
 }
@@ -672,6 +878,7 @@ table, th, td {
   cursor: pointer;
 
 }
+
 .data-table {
 }
 
@@ -718,15 +925,18 @@ th {
 .highlighted-row:hover {
   background-color: hsl(5, 42%, 31%) /* Cambia el color de fondo al pasar el puntero */
 }
+
 .title {
   font-size: 46px; /* Tamaño de fuente más grande */
   font-weight: bold; /* Texto en negrita */
   color: #00ff50; /* Color del texto (puedes cambiarlo según tus preferencias) */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra de texto (opcional) */
 }
+
 .title-dynamis {
   font-weight: bold;
 }
+
 .button-back {
   /* Propiedades para centrar horizontalmente */
   margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
@@ -745,6 +955,7 @@ th {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background 0.2s, transform 0.2s;
 }
+
 .button-back:hover {
   background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
   transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
@@ -754,10 +965,70 @@ th {
 .button-back:hover {
   background-color: hsl(5, 42%, 31%); /* Cambia el color de fondo cuando se pasa el mouse */
 }
+
 .centered-row {
   text-align: center;
 }
+
 .selectable-label {
   user-select: none
- }
+}
+.next-dynamis-title {
+  text-align: center;
+  margin-bottom: 20px; /* Espacio entre el título y los eventos */
+}
+
+.next-dynamis-title h2 {
+  font-size: 28px; /* Tamaño del texto del título */
+  color: #333; /* Color del texto */
+  /* Otros estilos según tus preferencias */
+}
+.event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.event-item {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  flex: 1 0 200px; /* Ajusta el ancho máximo deseado o utiliza otro valor */
+  max-width: 300px; /* Ajusta el ancho máximo deseado o utiliza otro valor */
+}
+
+.event-title {
+  font-size: 24px;
+  margin-bottom: 8px;
+  white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+  overflow: hidden; /* Opcional: oculta el texto que desborda */
+  text-overflow: ellipsis; /* Opcional: agrega puntos suspensivos para indicar que el texto se corta */
+}
+
+h3 {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Estilo específico para ocultar el borde cuando no hay datos */
+.event-details:not(:empty) {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-details:not(:empty) h2:last-child,
+.event-details:not(:empty) h3:last-child {
+  border: none;
+  margin-bottom: 0;
+}
 </style>
