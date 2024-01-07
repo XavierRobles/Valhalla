@@ -1,9 +1,6 @@
 <template>
   <div class="container">
     <div class="content-title">
-      <div class="centered-content">
-        <h3><span class="title">Dynamis</span></h3>
-      </div>
       <img src="@/components/dynamis/coffergil-ffxi.webp" alt="Coffer Gil Image" width="225" height="225">
     </div>
     <div v-if="loading">
@@ -76,12 +73,17 @@
           <input type="checkbox" :id="'user-mitad-' + index" :value="index" v-model="usersHalfIDs">
         </p>
         <p v-else-if="selectedUsersIDs.some(selected => selected.index === index)">
-          {{ user.name }} Receives: {{ formatGil(user.amount) }} Gil. &nbsp;&nbsp;
-          <input type="checkbox" :id="'user-half-' + index" :value="index" v-model="usersHalfIDs">
-          <label :for="'user-half-' + index">50%</label>
+          <span v-if="usersHalfIDs.includes(index)">{{ user.name }} Receives: {{ formatGil(user.amount) }} Gil.</span> &nbsp;&nbsp;
+          <span v-else-if="userZeroIDs.includes(index)">{{ user.name }} Receives (0%): {{ formatGil(user.amount) }} Gil.</span>
+          <span v-else>{{ user.name }} Receives (100%): {{ formatGil(user.amount) }} Gil.</span>
+          <input type="checkbox" v-if="!userZeroIDs.includes(index)" :id="'user-half-' + index" :value="index" v-model="usersHalfIDs">
+          <label v-if="!userZeroIDs.includes(index)" :for="'user-half-' + index">50%</label>
+          <input type="checkbox" :id="'user-zero-' + index" :value="index" v-model="userZeroIDs">
+          <label :for="'user-zero-' + index">0%</label>
         </p>
       </div>
     </div>
+
 
     <div>
       <div class="content-title" v-if="isEditingNext && (userRole === 'JARL')">
@@ -122,7 +124,7 @@
       <h2>Next Dynamis</h2>
     </div>
     <div class="event-container" v-if="!checkNoDateAvailable()">
-      <!-- Mostrar títulos de next_dynamis -->
+
       <div class="event-row">
         <div
             v-for="(nextEvent, eventIndex) in dynamisEvents"
@@ -205,11 +207,12 @@
                   :key="username"
                   :class="{ 'highlighted-row': username === highlightedRowIndex }"
                   @mouseover="highlightRow(username)"
-                  @mouseout="unhighlightRow()">
-
+                  @mouseout="unhighlightRow()"
+              >
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.amount }} Gil</td>
-                <td v-if="user.itsHalf">50%</td>
+                <td v-if="user.zero">0%</td>
+                <td v-else-if="user.itsHalf">50%</td>
                 <td v-else>100%</td>
                 <td v-if="userRole === 'JARL'">
                   <input type="checkbox" :id="'paid-' + username" v-model="user.paid" @change="updatePayment(user)">
@@ -391,6 +394,7 @@ const totalGil = ref(0);
 let usersDynamis = [];
 const selectedUsersIDs = ref([]);
 const usersHalfIDs = ref([]);
+const userZeroIDs = ref([]);
 
 // Función para formatear la cantidad
 
@@ -422,29 +426,37 @@ const applyChanges = () => {
 const calculateDistribution = () => {
   const amountSelectedUsers = selectedUsersIDs.value.length;
   const amountUsersHalf = usersHalfIDs.value.length;
+  const amountUsersZero = userZeroIDs.value.length;
 
-  const selectedUsers = selectedUsersIDs.value.map(({index, user}) => ({
+  const selectedUsers = selectedUsersIDs.value.map(({ index, user }) => ({
     index,
     user,
     isHalf: usersHalfIDs.value.includes(index),
+    isZero: userZeroIDs.value.includes(index),
   }));
 
   const amountPerUser = totalGil.value / amountSelectedUsers;
   const amountTotalHalf = usersHalfIDs.value.reduce((total, id) => total + amountPerUser / 2, 0);
   const remainingAmount = totalGil.value - amountTotalHalf;
 
-  // Si todos los usuarios están marcados como mitad, repartir el Gil entre ellos
-  if (amountUsersHalf === amountSelectedUsers) {
-    selectedUsers.forEach(({index}) => {
+  selectedUsers.forEach(({ index, isHalf, isZero }) => {
+    if (isHalf) {
       usersDynamis[index].amount = amountPerUser / 2;
-    });
-  } else {
-    selectedUsers.forEach(({index, isHalf}) => {
-      if (!isHalf) {
-        usersDynamis[index].amount = remainingAmount / (amountSelectedUsers - amountUsersHalf);
-      }
-    });
-  }
+    } else if (isZero) {
+      usersDynamis[index].amount = 0;
+    }
+  });
+
+  // Redistribuir el monto restante entre usuarios no marcados como 50% ni como 0%
+  const nonHalfNonZeroUsers = amountSelectedUsers - amountUsersHalf - amountUsersZero;
+
+  selectedUsers.forEach(({ index, isHalf, isZero }) => {
+    if (!isHalf && !isZero) {
+      usersDynamis[index].amount = remainingAmount / nonHalfNonZeroUsers;
+    }
+  });
+};
+
 
   // Asignar el 50% solo a los usuarios seleccionados con 50%
   usersHalfIDs.value.forEach(index => {
@@ -452,7 +464,6 @@ const calculateDistribution = () => {
       usersDynamis[index].amount = amountPerUser / 2;
     }
   });
-};
 const deleteDynamis = async (index) => {
   try {
     const dynamisName = dynamisCollection.value[index].dynamisName;
@@ -645,6 +656,7 @@ const saveDynamisData = async () => {
         itsHalf: usersHalfIDs.value.includes(index),
         paid: false,
         dynamisName: dynamisName,
+        zero: userZeroIDs.value.includes(index),
       };
     });
 
@@ -664,7 +676,7 @@ const saveDynamisData = async () => {
 };
 
 // Observadores para recalcular la distribución cuando cambian los valores
-watch([totalGil, sortedUsers, selectedUsersIDs, usersHalfIDs], () => {
+watch([totalGil, sortedUsers, selectedUsersIDs, usersHalfIDs, userZeroIDs], () => {
   createUserList();
   calculateDistribution();
 
@@ -678,6 +690,7 @@ const loadUsers = async () => {
         id: userId,
         amount: 0,
         itsHalf: false,
+        zero: false,
         ...snapshot.val()[userId],
       }));
     }
@@ -751,6 +764,7 @@ onMounted(async () => {
   await loadUsers();
   await loadDynamisData();
   await loadNextDynamisData();
+  sortByColumn('date');
 });
 </script>
 <style scoped>

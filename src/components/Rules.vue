@@ -1,8 +1,10 @@
 <template>
   <div class="content-title">
     <div class="centered-content">
-      <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325" />
-      <h3><span class="title">VALHALLA II</span></h3>
+      <div class="centered-text">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="325" height="325"/>
+        <h3><span class="title">VALHALLA II</span></h3>
+      </div>
 
       <div v-if="editing" class="edit-mode">
         <div class="text-area-container">
@@ -14,9 +16,10 @@
         <div class="text-area-container">
           <textarea v-model="seaRules" class="editable-textarea resizable" ref="seaRulesTextarea"></textarea>
         </div>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" class="button-edit" @click="saveRules">Save</button>
-        <button class="button-edit" @click="cancelEditing">Cancel</button>
-
+        <div>
+          <button v-if="userRole === 'JARL' || userRole === 'EARL'" class="button-edit" @click="saveRules">Save</button>
+          <button class="button-edit" @click="cancelEditing">Cancel</button>
+        </div>
       </div>
       <div v-else class="label-mode">
         <div class="large-text" v-html="rules_valhalla"></div>
@@ -24,20 +27,26 @@
         <div class="large-text" v-html="skyRules"></div>
         <br>
         <div class="large-text" v-html="seaRules"></div>
-        <button v-if="userRole === 'JARL' || userRole === 'EARL'" class="button-edit" @click="startEditing">Edit</button>
+        <div class="edit-mode">
+        <button v-if="userRole === 'JARL' || userRole === 'EARL'" class="button-edit" @click="startEditing">Edit
+        </button>
+        </div>
       </div>
     </div>
   </div>
   <div>
-    <div>  <button class="button-back" @click="goBack()">Back</button></div>
+    <div>
+      <button class="button-back" @click="goBack()">Back</button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet } from "firebase/database";
-import { firebaseApp } from "@/main";
+import {onMounted, ref} from 'vue';
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {get as rtdbGet, getDatabase, ref as rtdbRef, set as rtdbSet} from "firebase/database";
+import {firebaseApp} from "@/main";
+
 const auth = getAuth(firebaseApp);
 const db = getDatabase(firebaseApp);
 
@@ -112,7 +121,7 @@ const loadRules = async () => {
     console.error('Error loading rules:', error);
   }
 };
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 const goBack = () => {
@@ -126,11 +135,19 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.content-title {
+  text-align: left; /* Alinea el contenido a la izquierda */
+  margin: 0 200px;
+}
+
 .centered-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+.centered-text {
+  text-align: center; /* Centra el texto e imagen */
 }
 
 .edit-mode {
@@ -155,7 +172,7 @@ onMounted(async () => {
 }
 
 .label-mode {
-  text-align: center;
+  text-align: left;
   margin-top: 10px;
 }
 
@@ -190,6 +207,7 @@ onMounted(async () => {
   background-color: #687377;
   color: #e74c3c;
 }
+
 .button-back {
   /* Propiedades para centrar horizontalmente */
   margin: 20px auto; /* Margen superior e inferior de 20px y centrado horizontalmente */
@@ -208,6 +226,7 @@ onMounted(async () => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background 0.2s, transform 0.2s;
 }
+
 .button-back:hover {
   background: linear-gradient(to bottom, #70332e, #70332e); /* Cambia el fondo al pasar el mouse */
   transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */

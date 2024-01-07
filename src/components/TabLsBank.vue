@@ -1,40 +1,42 @@
 <template>
   <div class="ls-bank-tab">
+    <img alt="Vue logo" class="logo" src="@/components/bank/logogold.png" width="150" height="200" />
+    <br>
 
-    <div>
+    <div class="tab-links-Bank">
       <a
-          :class="{ 'active-tab': activeTab === 'sea' }"
-          @click="activeTab = 'sea'"
+          :class="{ 'active-tab': activeTab === 'bank' }"
+          @click="activeTab = 'bank'"
           class="tab-button"
       >
-        Sea
+        Bank
       </a>
       <a
-          :class="{ 'active-tab': activeTab === 'limbus' }"
-          @click="activeTab = 'limbus'"
+          :class="{ 'active-tab': activeTab === 'dynamis' }"
+          @click="activeTab = 'dynamis'"
           class="tab-button"
       >
-        Limbus
+        Dynamis
       </a>
     </div>
     <br>
     <br>
     <div class="tab-content">
-      <div v-if="activeTab === 'sea'">
-        <Sea></Sea>
+      <div v-if="activeTab === 'bank'">
+        <LsBank></LsBank>
       </div>
-      <div v-if="activeTab === 'limbus'">
-        <Limbus></Limbus>
+      <div v-if="activeTab === 'dynamis'">
+        <Dynamis></Dynamis>
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
-import Sea from "@/components/Sea.vue";
-import Limbus from "@/components/Limbus.vue";
+import LsBank from "@/components/LsBank.vue";
+import Dynamis from "@/components/Dynamis.vue";
 
-const activeTab = ref('sea');
+const activeTab = ref('bank');
 
 </script>
 <style>
@@ -44,14 +46,13 @@ const activeTab = ref('sea');
   align-items: center;
 }
 
-.tab-links {
+.tab-links-Bank {
   display: flex;
   justify-content: center;
-  background-color: #333;
   padding: 10px 0;
   border-radius: 10px;
 }
-.tab-links a {
+.tab-links-Bank a {
   padding: 10px 20px;
   text-decoration: none;
   color: #fff;
@@ -69,11 +70,11 @@ const activeTab = ref('sea');
   margin: 5px;
 }
 
-.tab-links a:hover {
+.tab-links-Bank a:hover {
   background-color: #555;
 }
 
-.tab-links .active-tab {
+.tab-links-Bank .active-tab {
   background-color: #cc0000;
 }
 

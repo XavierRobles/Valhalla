@@ -45,6 +45,7 @@
         </tr>
         </thead>
         <tbody>
+
         <tr
         v-for="(user, index) in sortedUsers"
         :key="index"
@@ -81,6 +82,7 @@ import {get as rtdbGet, getDatabase, ref as rtdbRef} from 'firebase/database';
 import {firebaseApp} from '@/main';
 import {useRouter} from 'vue-router';
 import * as XLSX from 'xlsx';
+import EventNavidad from "@/components/EventNavidad.vue";
 
 const loading = ref(true);
 const auth = getAuth(firebaseApp);
@@ -255,6 +257,17 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.tree {
+  margin-right: 45%;
+  margin-top: 320px;
+}
+.chris {
+  width: 200px;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 16px;
+  color: #cc0000; /* Rojo */
+  text-shadow: 2px 2px 4px #FFFFFF;
+}
 .home {
   display: flex;
   justify-content: center;

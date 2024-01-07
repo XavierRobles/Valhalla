@@ -223,9 +223,9 @@ onMounted(() => {
 .google-login-button {
   //display: flex;
   align-items: center;
-  background-color: #181818;
+  background-color: rgba(0, 0, 0, 0.1);
   color: #fefefe;
-  border: 1px solid #181818;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;

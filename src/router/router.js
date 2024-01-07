@@ -17,6 +17,8 @@ import Members from "@/components/Members.vue";
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getDatabase, ref as rtdbRef, get as rtdbGet} from 'firebase/database';
 import {firebaseApp} from "@/main";
+import TabLsBank from "@/components/TabLsBank.vue";
+import EventNavidad from "@/components/EventNavidad.vue";
 
 
 
@@ -73,6 +75,12 @@ const routes = [
         meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
     },
     {
+        path: '/bank',
+        component: TabLsBank,
+        name: 'LsBank',
+        meta: {requiresAuth: true, roles: ['JARL', 'EARL', 'KARL']},
+    },,
+    {
         path: '/dynamis',
         component: Dynamis,
         name: 'Dynamis',
@@ -115,6 +123,11 @@ const routes = [
         component: AccessDenied,
         name: 'AccessDenied',
     },
+    {
+        path: '/EventNavidad',
+        component: EventNavidad,
+        name: 'EventNavidad',
+    }
 ];
 
 const router = createRouter({

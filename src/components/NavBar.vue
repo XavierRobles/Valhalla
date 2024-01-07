@@ -60,11 +60,11 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/Dynamis">
+        <router-link to="/bank">
           <div class="nav-item-container">
             <div class="nav-item">
-              <img v-if="!isExpanded" src="@/components/icons/dynamis.png" height="50" width="52" alt="" />
-              <span class="nav-text">Dynamis</span>
+              <img v-if="!isExpanded" src="@/components/icons/sack.png" height="50" width="52" alt="" />
+              <span class="nav-text">Bank</span>
             </div>
           </div>
         </router-link>
@@ -89,7 +89,7 @@
           </div>
         </router-link>
         <!-- Nuevo div para el texto de la versión -->
-        <div class="version-text">V. 1.0.7</div>
+        <div class="version-text">V. 2.0.0</div>
         <a href="https://discord.gg/cGQe6vkw4u" target="_blank" class="discord-icon">
           <img v-if="!isExpanded" src="@/components/icons/discord.png" alt="Discord Icon" height="28" width="35" />
           <img v-else src="@/components/icons/discord.svg" alt="Discord Icon" class="discord-img" />
@@ -132,16 +132,36 @@ const collapseNavbar = () => {
 }
 
 .navbar {
-  background-color: #333;
+  /* Elimina completamente el fondo */
+  background: none;
+  /* Mantén la imagen de fondo */
+  /* Otros estilos permanecen iguales */
   color: white;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 78px; /* Ancho de la barra de navegación */
-  z-index: 999; /* Asegura que esté en la parte superior */
-  overflow: hidden; /* Oculta cualquier contenido que se desborde */
-  transition: width 0.3s; /* Agrega una transición suave para el ancho */
+  width: 78px;
+  z-index: 999;
+  overflow: hidden;
+  transition: width 0.3s;
+}
+
+/* Pseudoelemento ::before para aplicar el filtro de escala de grises */
+.navbar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Mantén la imagen de fondo */
+  background-image: url('@/components/bank/fondo.png');
+  background-position: center;
+  background-size: cover;
+  /* Aplica escala de grises a la imagen de fondo */
+  filter: grayscale(50%);
+  z-index: -1; /* Asegura que esté detrás de otros contenidos */
 }
 
 .navbar.expanded {
